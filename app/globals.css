@@ -120,14 +120,12 @@ h1 {
 }
 
 .mode-list,
-.quick-list,
 .recent-list {
   display: grid;
   gap: 8px;
 }
 
 .mode-list button,
-.quick-list button,
 .recent-list button {
   min-height: 44px;
   padding: 9px 11px;
@@ -138,8 +136,7 @@ h1 {
   text-align: left;
 }
 
-.mode-list button,
-.quick-list button {
+.mode-list button {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -148,7 +145,6 @@ h1 {
 
 .mode-list button.active,
 .mode-list button:hover,
-.quick-list button:hover,
 .recent-list button:hover {
   border-color: #c5d1dd;
   background: #ffffff;
@@ -158,14 +154,12 @@ h1 {
   color: var(--blue);
 }
 
-.mode-list span,
-.quick-list span {
+.mode-list span {
   color: var(--muted);
   font-weight: 800;
 }
 
-.mode-list strong,
-.quick-list strong {
+.mode-list strong {
   color: var(--foreground);
 }
 
@@ -383,9 +377,6 @@ dd {
     justify-content: start;
   }
 
-  .quick-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 620px) {
@@ -398,7 +389,6 @@ dd {
     padding: 14px;
   }
 
-  .quick-list,
   .word-row,
   .forms-grid {
     grid-template-columns: 1fr;

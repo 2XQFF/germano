@@ -124,18 +124,6 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="sidebar-section">
-            <p className="section-kicker">빠른 예시</p>
-            <div className="quick-list">
-              {WORDS.slice(0, 10).map((entry) => (
-                <button key={entry.german} onClick={() => runSearch(entry.ko[0])} type="button">
-                  <span>{entry.ko[0]}</span>
-                  <strong>{entry.german}</strong>
-                </button>
-              ))}
-            </div>
-          </div>
-
           {recentQueries.length > 0 && (
             <div className="sidebar-section">
               <p className="section-kicker">최근 검색</p>

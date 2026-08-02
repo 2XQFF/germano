@@ -120,14 +120,12 @@
 
       .sidebar-section,
       .mode-list,
-      .quick-list,
       .recent-list {
         display: grid;
         gap: 8px;
       }
 
       .mode-list button,
-      .quick-list button,
       .recent-list button {
         min-height: 44px;
         padding: 9px 11px;
@@ -138,8 +136,7 @@
         text-align: left;
       }
 
-      .mode-list button,
-      .quick-list button {
+      .mode-list button {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -148,7 +145,6 @@
 
       .mode-list button.active,
       .mode-list button:hover,
-      .quick-list button:hover,
       .recent-list button:hover {
         border-color: #c5d1dd;
         background: #ffffff;
@@ -158,8 +154,7 @@
         color: var(--blue);
       }
 
-      .mode-list span,
-      .quick-list span {
+      .mode-list span {
         color: var(--muted);
         font-weight: 800;
       }
@@ -375,9 +370,6 @@
           justify-content: start;
         }
 
-        .quick-list {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
       }
 
       @media (max-width: 620px) {
@@ -390,7 +382,6 @@
           padding: 14px;
         }
 
-        .quick-list,
         .word-row,
         .forms-grid {
           grid-template-columns: 1fr;
@@ -417,10 +408,6 @@
           <div class="sidebar-section">
             <p class="section-kicker">품사</p>
             <div class="mode-list" id="mode-list" aria-label="품사 필터"></div>
-          </div>
-          <div class="sidebar-section">
-            <p class="section-kicker">빠른 예시</p>
-            <div class="quick-list" id="quick-list"></div>
           </div>
           <div class="sidebar-section" id="recent-section" hidden>
             <p class="section-kicker">최근 검색</p>
@@ -490,7 +477,6 @@
       const resultCount = document.getElementById("result-count");
       const detailCard = document.getElementById("detail-card");
       const modeList = document.getElementById("mode-list");
-      const quickList = document.getElementById("quick-list");
       const recentList = document.getElementById("recent-list");
       const recentSection = document.getElementById("recent-section");
 
@@ -528,21 +514,6 @@
             render();
           });
           modeList.appendChild(button);
-        });
-      }
-
-      function renderQuickList() {
-        quickList.innerHTML = "";
-        words.slice(0, 10).forEach((entry) => {
-          const button = document.createElement("button");
-          button.innerHTML = `<span>${entry.ko[0]}</span><strong>${entry.german}</strong>`;
-          button.addEventListener("click", () => {
-            state.query = entry.ko[0];
-            input.value = state.query;
-            saveQuery(state.query);
-            render();
-          });
-          quickList.appendChild(button);
         });
       }
 
@@ -631,7 +602,6 @@
         renderRecent();
       });
 
-      renderQuickList();
       render();
 
       if ("serviceWorker" in navigator) {
