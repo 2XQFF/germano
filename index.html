@@ -245,6 +245,11 @@
       const EXERCISE_LABELS = {
         "ko-de": "한국어 > 독일어",
         "de-ko": "독일어 > 한국어",
+        "type-de": "독일어 단어 입력",
+        article: "독일어 성 고르기",
+        plural: "복수형 고르기",
+        past: "과거형 고르기",
+        participle: "과거분사 고르기",
         "write-de": "독일어 작문",
         "translate-ko": "한국어 번역",
       };
@@ -313,19 +318,33 @@
         const offset = amount % items.length;
         return [...items.slice(offset), ...items.slice(0, offset)];
       };
+      const choiceSet = (correct, distractors, index) =>
+        rotate([...new Set([correct, ...distractors])].slice(0, 4), index);
+      const exerciseHint = (kind) => {
+        if (kind === "write-de") return "한국어 문장을 독일어로 직접 쓰세요.";
+        if (kind === "translate-ko") return "독일어 문장을 한국어로 옮기세요.";
+        if (kind === "type-de") return "관사까지 포함해 독일어 단어를 직접 입력하세요.";
+        if (kind === "article") return "성에 맞는 관사를 고르세요.";
+        if (kind === "plural") return "알맞은 복수형을 고르세요.";
+        if (kind === "past" || kind === "participle") return "동사 변화형을 고르세요.";
+        return "가장 알맞은 답을 고르세요.";
+      };
+      const answerPlaceholder = (kind) =>
+        kind === "translate-ko" ? "한국어로 입력" : "독일어로 입력";
       function currentExercises() {
         const lesson = currentLesson();
         const entries = currentWords();
         if (!lesson || !entries.length) return [];
         const sentence = LESSON_SENTENCES[lesson.id];
+        const nouns = entries.filter((entry) => entry.type === "명사");
+        const verbs = entries.filter((entry) => entry.type === "동사");
         const entryAt = (index) => entries[index % entries.length];
         const options = (entry, direction, index) => {
           const label = (item) =>
             direction === "de" ? title(item) : item.ko[0];
-          return rotate(
-            [entry, ...entries.filter((item) => item.german !== entry.german)]
-              .slice(0, 4)
-              .map(label),
+          return choiceSet(
+            label(entry),
+            entries.filter((item) => item.german !== entry.german).map(label),
             index,
           );
         };
@@ -349,15 +368,38 @@
             entry,
           };
         };
+        const typeGerman = (index) => {
+          const entry = entryAt(index);
+          return { kind: "type-de", prompt: entry.ko[0], expected: title(entry), entry };
+        };
+        const articleQuestion = (entry, index) => {
+          const expected = `${entry.article} ${entry.german}`;
+          const alternatives = ["der", "die", "das"].map((article) => `${article} ${entry.german}`);
+          return { kind: "article", prompt: `${entry.german}의 알맞은 성을 고르세요.`, expected, choices: choiceSet(expected, alternatives, index), entry };
+        };
+        const pluralQuestion = (entry, index) => {
+          const alternatives = [entry.german, ...nouns.filter((noun) => noun.german !== entry.german).map((noun) => noun.plural)];
+          return { kind: "plural", prompt: `${entry.german}의 복수형을 고르세요.`, expected: entry.plural, choices: choiceSet(entry.plural, alternatives, index), entry };
+        };
+        const verbFormQuestion = (entry, kind, index) => {
+          const expected = kind === "past" ? entry.past : entry.participle;
+          const alternatives = [entry.german, ...verbs.filter((verb) => verb.german !== entry.german).map((verb) => kind === "past" ? verb.past : verb.participle)];
+          const label = kind === "past" ? "과거형" : "과거분사";
+          const particle = kind === "past" ? "을" : "를";
+          return { kind, prompt: `${entry.german}의 ${label}${particle} 고르세요.`, expected, choices: choiceSet(expected, alternatives, index), entry };
+        };
+        const nounForArticle = nouns[Math.min(2, nouns.length - 1)];
+        const nounForPlural = nouns[0];
+        const verbForForms = verbs[0];
         return [
           koToDe(0),
           deToKo(1),
-          koToDe(2),
-          deToKo(3),
+          typeGerman(2),
+          ...(nounForArticle ? [articleQuestion(nounForArticle, 3), pluralQuestion(nounForPlural, 4)] : []),
+          ...(verbForForms ? [verbFormQuestion(verbForForms, "past", 5), verbFormQuestion(verbForForms, "participle", 6)] : []),
           { kind: "write-de", prompt: sentence.ko, expected: sentence.de },
           { kind: "translate-ko", prompt: sentence.de, expected: sentence.ko },
           koToDe(4),
-          deToKo(5),
         ];
       }
       const nav = () =>
@@ -379,8 +421,8 @@
         const exercises = currentExercises();
         const exercise = exercises[state.lessonWordIndex] || exercises[0];
         const progress = ((state.lessonWordIndex + 1) / exercises.length) * 100;
-        const instruction = exercise.kind === "write-de" ? "한국어 문장을 독일어로 직접 쓰세요." : exercise.kind === "translate-ko" ? "독일어 문장을 한국어로 옮기세요." : "가장 알맞은 답을 고르세요.";
-        const choices = exercise.choices ? `<div class="answer-choices">${exercise.choices.map((choice) => `<button class="${state.selectedChoice === choice ? "choice-button selected" : "choice-button"}" data-choice="${choice}" ${state.checked ? "disabled" : ""} type="button">${choice}</button>`).join("")}</div>` : `<label class="answer-input"><span class="sr-only">답안</span><input id="typed-answer" ${state.checked ? "disabled" : ""} value="${state.typedAnswer}" placeholder="${exercise.kind === "write-de" ? "독일어로 입력" : "한국어로 입력"}" /></label>`;
+        const instruction = exerciseHint(exercise.kind);
+        const choices = exercise.choices ? `<div class="answer-choices">${exercise.choices.map((choice) => `<button class="${state.selectedChoice === choice ? "choice-button selected" : "choice-button"}" data-choice="${choice}" ${state.checked ? "disabled" : ""} type="button">${choice}</button>`).join("")}</div>` : `<label class="answer-input"><span class="sr-only">답안</span><input id="typed-answer" ${state.checked ? "disabled" : ""} value="${state.typedAnswer}" placeholder="${answerPlaceholder(exercise.kind)}" /></label>`;
         const feedback = state.checked ? `<div class="answer-feedback ${state.correct ? "correct" : "incorrect"}"><strong>${state.correct ? "정답이에요" : "다시 확인해보세요"}</strong><p>정답: ${exercise.expected}</p>${exercise.entry ? `${wordForms(exercise.entry)}<p class="word-note">${exercise.entry.note}</p>` : ""}</div>` : "";
         const action = state.checked ? `<button class="primary-button quiz-submit" id="next-exercise" type="button">다음</button>` : `<button class="primary-button quiz-submit" id="check-answer" ${exercise.choices ? (state.selectedChoice ? "" : "disabled") : (state.typedAnswer.trim() ? "" : "disabled")} type="button">확인</button>`;
         return `<section class="lesson-session" aria-label="${lesson.title} 레슨"><div class="session-heading"><button class="back-button" data-home type="button">학습 경로</button><div><p class="eyebrow">주제 레슨</p><h1>${lesson.title}</h1><p>${lesson.subtitle}</p></div><div class="goal-progress" aria-label="레슨 진행"><div class="progress-label"><span>레슨 진행</span><strong>${state.lessonWordIndex + 1}/${exercises.length}</strong></div><div class="progress-track"><span style="width:${progress}%"></span></div></div></div><section class="challenge-card quiz-card"><div class="challenge-copy"><p class="prompt-label">${EXERCISE_LABELS[exercise.kind]}</p><h2>${exercise.prompt}</h2><p class="alternate-meaning">${instruction}</p></div><img class="guide-image" src="./public/blue-dragon-guide.png" alt="단어 학습을 돕는 파란 용" /><div class="quiz-body">${choices}${feedback}${action}</div></section></section>`;

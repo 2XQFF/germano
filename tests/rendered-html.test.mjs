@@ -61,6 +61,9 @@ test("keeps dictionary data and offline support inside the app", async () => {
   assert.match(page, /EXERCISE_LABELS/);
   assert.match(page, /독일어 작문/);
   assert.match(page, /한국어 번역/);
+  assert.match(page, /독일어 성 고르기/);
+  assert.match(page, /독일어 단어 입력/);
+  assert.match(page, /과거분사 고르기/);
   assert.doesNotMatch(data, /example:/);
   assert.doesNotMatch(page, /checkWriting|writing|예문/);
   assert.match(layout, /WORTWEG/);
@@ -70,6 +73,8 @@ test("keeps dictionary data and offline support inside the app", async () => {
   assert.match(staticServiceWorker, /public\/blue-dragon-guide\.png/);
   assert.match(staticPage, /CHAPTER/);
   assert.match(staticPage, /EXERCISE_LABELS/);
+  assert.match(staticPage, /독일어 성 고르기/);
+  assert.match(staticPage, /독일어 단어 입력/);
   assert.match(staticPage, /\.\/public\/blue-dragon-guide\.png/);
   assert.match(staticPage, /dictionary-data\.json/);
   assert.doesNotMatch(staticPage, /example-block|예문/);
