@@ -831,5 +831,673 @@
     "participle": "ist gereist",
     "subjunctive2": "reiste",
     "note": "이동 동사라 완료형에서 sein을 씁니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["아침"],
+    "german": "Morgen",
+    "article": "der",
+    "plural": "Morgen",
+    "note": "am Morgen은 아침에라는 뜻입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["저녁"],
+    "german": "Abend",
+    "article": "der",
+    "plural": "Abende",
+    "note": "저녁 인사 Guten Abend에 쓰입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["주", "일주일"],
+    "german": "Woche",
+    "article": "die",
+    "plural": "Wochen",
+    "note": "jede Woche는 매주라는 뜻입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["달", "개월"],
+    "german": "Monat",
+    "article": "der",
+    "plural": "Monate",
+    "note": "월 이름과 기간을 말할 때 씁니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["분", "분간"],
+    "german": "Minute",
+    "article": "die",
+    "plural": "Minuten",
+    "note": "시간을 세는 여성 명사입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["시계", "시각"],
+    "german": "Uhr",
+    "article": "die",
+    "plural": "Uhren",
+    "note": "um acht Uhr는 8시에라는 뜻입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["이름"],
+    "german": "Name",
+    "article": "der",
+    "plural": "Namen",
+    "note": "약변화 명사라 격에 따라 -n이 붙습니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["직업"],
+    "german": "Beruf",
+    "article": "der",
+    "plural": "Berufe",
+    "note": "von Beruf는 직업으로는이라는 표현입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["여자", "여성"],
+    "german": "Frau",
+    "article": "die",
+    "plural": "Frauen",
+    "note": "성인 여성을 말하는 기본 명사입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["남자", "남성"],
+    "german": "Mann",
+    "article": "der",
+    "plural": "Männer",
+    "note": "복수형에서 a가 ä로 바뀝니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["소년", "남자아이"],
+    "german": "Junge",
+    "article": "der",
+    "plural": "Jungen",
+    "note": "약변화 명사입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["소녀", "여자아이"],
+    "german": "Mädchen",
+    "article": "das",
+    "plural": "Mädchen",
+    "note": "-chen으로 끝나는 명사는 중성입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["어머니"],
+    "german": "Mutter",
+    "article": "die",
+    "plural": "Mütter",
+    "note": "복수형에서 u가 ü로 바뀝니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["아버지"],
+    "german": "Vater",
+    "article": "der",
+    "plural": "Väter",
+    "note": "복수형에서 a가 ä로 바뀝니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["형제", "남자 형제"],
+    "german": "Bruder",
+    "article": "der",
+    "plural": "Brüder",
+    "note": "복수형에서 u가 ü로 바뀝니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["자매", "여자 형제"],
+    "german": "Schwester",
+    "article": "die",
+    "plural": "Schwestern",
+    "note": "규칙적으로 복수 -n을 취합니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["음식", "식사"],
+    "german": "Essen",
+    "article": "das",
+    "plural": "Essen",
+    "note": "동사 essen에서 온 중성 명사입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["커피"],
+    "german": "Kaffee",
+    "article": "der",
+    "plural": "Kaffees",
+    "note": "종류나 잔을 셀 때 복수형을 씁니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["차", "홍차"],
+    "german": "Tee",
+    "article": "der",
+    "plural": "Tees",
+    "note": "der Tee는 마시는 차입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["식당", "레스토랑"],
+    "german": "Restaurant",
+    "article": "das",
+    "plural": "Restaurants",
+    "note": "외래어 중성 명사입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["시장"],
+    "german": "Markt",
+    "article": "der",
+    "plural": "Märkte",
+    "note": "복수형에서 a가 ä로 바뀝니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["슈퍼마켓"],
+    "german": "Supermarkt",
+    "article": "der",
+    "plural": "Supermärkte",
+    "note": "합성명사는 Markt의 성을 따릅니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["호텔"],
+    "german": "Hotel",
+    "article": "das",
+    "plural": "Hotels",
+    "note": "외래어 중성 명사입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["공항"],
+    "german": "Flughafen",
+    "article": "der",
+    "plural": "Flughäfen",
+    "note": "Hafen의 복수형에서 a가 ä로 바뀝니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["거리", "도로"],
+    "german": "Straße",
+    "article": "die",
+    "plural": "Straßen",
+    "note": "ss가 아닌 ß 철자를 확인하세요."
+  },
+  {
+    "type": "명사",
+    "ko": ["다리", "교량"],
+    "german": "Brücke",
+    "article": "die",
+    "plural": "Brücken",
+    "note": "여성 명사이며 복수는 -n입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["광장", "장소"],
+    "german": "Platz",
+    "article": "der",
+    "plural": "Plätze",
+    "note": "복수형에서 a가 ä로 바뀝니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["공원"],
+    "german": "Park",
+    "article": "der",
+    "plural": "Parks",
+    "note": "외래어 남성 명사입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["바다"],
+    "german": "Meer",
+    "article": "das",
+    "plural": "Meere",
+    "note": "das Meer는 바다를 뜻합니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["산"],
+    "german": "Berg",
+    "article": "der",
+    "plural": "Berge",
+    "note": "산 이름과 함께 자주 씁니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["숲"],
+    "german": "Wald",
+    "article": "der",
+    "plural": "Wälder",
+    "note": "복수형에서 a가 ä로 바뀝니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["태양", "해"],
+    "german": "Sonne",
+    "article": "die",
+    "plural": "Sonnen",
+    "note": "여성 명사이며 날씨 표현에 쓰입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["비"],
+    "german": "Regen",
+    "article": "der",
+    "plural": "Regen",
+    "note": "보통 단수로 쓰는 남성 명사입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["옷", "의류"],
+    "german": "Kleidung",
+    "article": "die",
+    "plural": "-",
+    "note": "집합명사로 보통 단수로 씁니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["셔츠"],
+    "german": "Hemd",
+    "article": "das",
+    "plural": "Hemden",
+    "note": "중성 명사이며 복수는 -en입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["재킷", "외투"],
+    "german": "Jacke",
+    "article": "die",
+    "plural": "Jacken",
+    "note": "여성 명사입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["신발"],
+    "german": "Schuh",
+    "article": "der",
+    "plural": "Schuhe",
+    "note": "규칙적으로 복수 -e를 취합니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["돈"],
+    "german": "Geld",
+    "article": "das",
+    "plural": "-",
+    "note": "보통 단수로 쓰는 중성 명사입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["지도", "카드"],
+    "german": "Karte",
+    "article": "die",
+    "plural": "Karten",
+    "note": "Landkarte는 지도, Fahrkarte는 승차권입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["메시지", "소식"],
+    "german": "Nachricht",
+    "article": "die",
+    "plural": "Nachrichten",
+    "note": "복수형은 -en입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["그림", "사진"],
+    "german": "Bild",
+    "article": "das",
+    "plural": "Bilder",
+    "note": "중성 명사이며 복수는 -er입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["주말"],
+    "german": "Wochenende",
+    "article": "das",
+    "plural": "Wochenenden",
+    "note": "am Wochenende는 주말에라는 뜻입니다."
+  },
+  {
+    "type": "명사",
+    "ko": ["취미"],
+    "german": "Hobby",
+    "article": "das",
+    "plural": "Hobbys",
+    "note": "외래어 중성 명사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["사랑하다"],
+    "german": "lieben",
+    "past": "liebte",
+    "participle": "hat geliebt",
+    "subjunctive2": "liebte",
+    "note": "규칙 변화 동사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["좋아하다"],
+    "german": "mögen",
+    "past": "mochte",
+    "participle": "hat gemocht",
+    "subjunctive2": "möchte",
+    "note": "möchte는 정중한 희망을 말할 때 특히 자주 쓰입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["필요로 하다"],
+    "german": "brauchen",
+    "past": "brauchte",
+    "participle": "hat gebraucht",
+    "subjunctive2": "brauchte",
+    "note": "4격 목적어를 취하는 규칙 동사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["찾다", "수색하다"],
+    "german": "suchen",
+    "past": "suchte",
+    "participle": "hat gesucht",
+    "subjunctive2": "suchte",
+    "note": "suchen은 찾아다니다, finden은 발견하다에 가깝습니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["주문하다"],
+    "german": "bestellen",
+    "past": "bestellte",
+    "participle": "hat bestellt",
+    "subjunctive2": "bestellte",
+    "note": "음식이나 물건을 주문할 때 씁니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["지불하다"],
+    "german": "bezahlen",
+    "past": "bezahlte",
+    "participle": "hat bezahlt",
+    "subjunctive2": "bezahlte",
+    "note": "분리되지 않는 be- 접두사 동사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["요리하다"],
+    "german": "kochen",
+    "past": "kochte",
+    "participle": "hat gekocht",
+    "subjunctive2": "kochte",
+    "note": "규칙 변화 동사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["기다리다"],
+    "german": "warten",
+    "past": "wartete",
+    "participle": "hat gewartet",
+    "subjunctive2": "wartete",
+    "note": "auf + 4격과 함께 기다리는 대상을 말합니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["방문하다"],
+    "german": "besuchen",
+    "past": "besuchte",
+    "participle": "hat besucht",
+    "subjunctive2": "besuchte",
+    "note": "사람이나 장소를 4격으로 받습니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["~라고 불리다", "이름이다"],
+    "german": "heißen",
+    "past": "hieß",
+    "participle": "hat geheißen",
+    "subjunctive2": "hieße",
+    "note": "Wie heißt du?처럼 이름을 묻는 데 씁니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["공부하다", "전공하다"],
+    "german": "studieren",
+    "past": "studierte",
+    "participle": "hat studiert",
+    "subjunctive2": "studierte",
+    "note": "대학에서 공부하거나 전공할 때 씁니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["열다"],
+    "german": "öffnen",
+    "past": "öffnete",
+    "participle": "hat geöffnet",
+    "subjunctive2": "öffnete",
+    "note": "규칙 변화 동사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["닫다"],
+    "german": "schließen",
+    "past": "schloss",
+    "participle": "hat geschlossen",
+    "subjunctive2": "schlösse",
+    "note": "강변화 동사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["앉아 있다"],
+    "german": "sitzen",
+    "past": "saß",
+    "participle": "hat gesessen",
+    "subjunctive2": "säße",
+    "note": "위치를 나타내는 상태 동사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["서 있다"],
+    "german": "stehen",
+    "past": "stand",
+    "participle": "hat gestanden",
+    "subjunctive2": "stünde",
+    "note": "위치를 나타내는 상태 동사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["놓여 있다"],
+    "german": "liegen",
+    "past": "lag",
+    "participle": "hat gelegen",
+    "subjunctive2": "läge",
+    "note": "누워 있다와 위치하다 둘 다 뜻할 수 있습니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["날다", "비행기로 가다"],
+    "german": "fliegen",
+    "past": "flog",
+    "participle": "ist geflogen",
+    "subjunctive2": "flöge",
+    "note": "이동 의미에서는 완료형에 sein을 씁니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["도착하다"],
+    "german": "ankommen",
+    "past": "kam an",
+    "participle": "ist angekommen",
+    "subjunctive2": "käme an",
+    "note": "분리동사라 현재와 과거에서 an이 분리됩니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["내리다", "하차하다"],
+    "german": "aussteigen",
+    "past": "stieg aus",
+    "participle": "ist ausgestiegen",
+    "subjunctive2": "stiege aus",
+    "note": "기차나 버스에서 내릴 때 씁니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["타다", "승차하다"],
+    "german": "einsteigen",
+    "past": "stieg ein",
+    "participle": "ist eingestiegen",
+    "subjunctive2": "stiege ein",
+    "note": "교통수단에 탈 때 씁니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["초대하다"],
+    "german": "einladen",
+    "past": "lud ein",
+    "participle": "hat eingeladen",
+    "subjunctive2": "lüde ein",
+    "note": "분리동사이며 강변화합니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["팔다"],
+    "german": "verkaufen",
+    "past": "verkaufte",
+    "participle": "hat verkauft",
+    "subjunctive2": "verkaufte",
+    "note": "분리되지 않는 ver- 접두사 동사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["선택하다"],
+    "german": "wählen",
+    "past": "wählte",
+    "participle": "hat gewählt",
+    "subjunctive2": "wählte",
+    "note": "투표하다와 선택하다 둘 다 뜻합니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["설명하다"],
+    "german": "erklären",
+    "past": "erklärte",
+    "participle": "hat erklärt",
+    "subjunctive2": "erklärte",
+    "note": "분리되지 않는 er- 접두사 동사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["보여주다"],
+    "german": "zeigen",
+    "past": "zeigte",
+    "participle": "hat gezeigt",
+    "subjunctive2": "zeigte",
+    "note": "jemandem etwas zeigen 구조를 자주 씁니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["믿다"],
+    "german": "glauben",
+    "past": "glaubte",
+    "participle": "hat geglaubt",
+    "subjunctive2": "glaubte",
+    "note": "an + 4격과 함께 믿는 대상을 말할 수 있습니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["바라다", "희망하다"],
+    "german": "hoffen",
+    "past": "hoffte",
+    "participle": "hat gehofft",
+    "subjunctive2": "hoffte",
+    "note": "auf + 4격과 함께 희망하는 대상을 말합니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["알다", "친숙하다"],
+    "german": "kennen",
+    "past": "kannte",
+    "participle": "hat gekannt",
+    "subjunctive2": "kennte",
+    "note": "사람, 장소, 작품을 안다는 뜻에 가깝습니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["잊다"],
+    "german": "vergessen",
+    "past": "vergaß",
+    "participle": "hat vergessen",
+    "subjunctive2": "vergäße",
+    "note": "분리되지 않는 ver- 접두사 강변화 동사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["받다", "얻다"],
+    "german": "erhalten",
+    "past": "erhielt",
+    "participle": "hat erhalten",
+    "subjunctive2": "erhielte",
+    "note": "bekommen보다 격식 있는 받다라는 뜻입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["해야 한다"],
+    "german": "müssen",
+    "past": "musste",
+    "participle": "hat gemusst",
+    "subjunctive2": "müsste",
+    "note": "의무를 나타내는 조동사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["할 수 있다"],
+    "german": "können",
+    "past": "konnte",
+    "participle": "hat gekonnt",
+    "subjunctive2": "könnte",
+    "note": "능력이나 가능성을 나타내는 조동사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["~해도 된다"],
+    "german": "dürfen",
+    "past": "durfte",
+    "participle": "hat gedurft",
+    "subjunctive2": "dürfte",
+    "note": "허가를 나타내는 조동사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["원하다"],
+    "german": "wollen",
+    "past": "wollte",
+    "participle": "hat gewollt",
+    "subjunctive2": "wollte",
+    "note": "강한 의지를 나타내는 조동사입니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["~해야 한다", "~하기로 되어 있다"],
+    "german": "sollen",
+    "past": "sollte",
+    "participle": "hat gesollt",
+    "subjunctive2": "sollte",
+    "note": "전해 들은 의무나 조언을 나타낼 때 씁니다."
+  },
+  {
+    "type": "동사",
+    "ko": ["시작하다"],
+    "german": "anfangen",
+    "past": "fing an",
+    "participle": "hat angefangen",
+    "subjunctive2": "finge an",
+    "note": "beginnen과 비슷하지만 분리동사입니다."
   }
 ]

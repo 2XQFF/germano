@@ -1,7 +1,7 @@
-const CACHE_NAME = "germano-static-v2";
+const CACHE_NAME = "germano-static-v3";
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(["./", "./dictionary-data.json", "./blue-dragon-guide.png"])));
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(["./", "./dictionary-data.json", "./public/blue-dragon-guide.png"])));
   self.skipWaiting();
 });
 
