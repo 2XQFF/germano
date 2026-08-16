@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import WORD_DATA from "../dictionary-data.json";
 
 type WordMode = "전체" | "명사" | "동사";
+type ActiveView = "learn" | "dictionary";
 
 type NounEntry = {
   type: "명사";
@@ -10,7 +12,6 @@ type NounEntry = {
   german: string;
   article: "der" | "die" | "das";
   plural: string;
-  example: string;
   note: string;
 };
 
@@ -21,34 +22,13 @@ type VerbEntry = {
   past: string;
   participle: string;
   subjunctive2: string;
-  example: string;
   note: string;
 };
 
 type WordEntry = NounEntry | VerbEntry;
 
-const WORDS: WordEntry[] = [
-  { type: "명사", ko: ["책", "도서"], german: "Buch", article: "das", plural: "Bücher", example: "Ich lese ein Buch.", note: "중성 명사이며 복수에서 움라우트가 생깁니다." },
-  { type: "명사", ko: ["학교"], german: "Schule", article: "die", plural: "Schulen", example: "Die Schule beginnt um acht Uhr.", note: "-e로 끝나는 여성 명사는 복수 -n이 자주 붙습니다." },
-  { type: "명사", ko: ["친구", "남자 친구"], german: "Freund", article: "der", plural: "Freunde", example: "Mein Freund kommt heute.", note: "여자 친구는 die Freundin, 복수는 Freundinnen입니다." },
-  { type: "명사", ko: ["시간", "시각"], german: "Zeit", article: "die", plural: "Zeiten", example: "Ich habe keine Zeit.", note: "추상명사로 관용 표현에 자주 쓰입니다." },
-  { type: "명사", ko: ["집", "가정"], german: "Haus", article: "das", plural: "Häuser", example: "Das Haus ist alt.", note: "복수형에서 au가 äu로 바뀝니다." },
-  { type: "명사", ko: ["사람", "인간"], german: "Mensch", article: "der", plural: "Menschen", example: "Der Mensch lernt jeden Tag.", note: "약변화 명사라 여러 격에서 -en을 확인해야 합니다." },
-  { type: "명사", ko: ["도시"], german: "Stadt", article: "die", plural: "Städte", example: "Berlin ist eine große Stadt.", note: "복수형에서 a가 ä로 바뀝니다." },
-  { type: "명사", ko: ["언어", "말"], german: "Sprache", article: "die", plural: "Sprachen", example: "Deutsch ist eine schöne Sprache.", note: "여성 명사이며 복수는 -n입니다." },
-  { type: "명사", ko: ["문장"], german: "Satz", article: "der", plural: "Sätze", example: "Der Satz ist richtig.", note: "복수형에서 a가 ä로 바뀝니다." },
-  { type: "명사", ko: ["시험"], german: "Prüfung", article: "die", plural: "Prüfungen", example: "Die Prüfung ist morgen.", note: "-ung 명사는 거의 항상 여성입니다." },
-  { type: "동사", ko: ["가다"], german: "gehen", past: "ging", participle: "ist gegangen", subjunctive2: "ginge", example: "Ich gehe zur Schule.", note: "이동 동사라 완료형에서 sein을 씁니다." },
-  { type: "동사", ko: ["오다"], german: "kommen", past: "kam", participle: "ist gekommen", subjunctive2: "käme", example: "Er kommt aus Korea.", note: "불규칙 동사이며 접속법 2식에 움라우트가 생깁니다." },
-  { type: "동사", ko: ["보다"], german: "sehen", past: "sah", participle: "hat gesehen", subjunctive2: "sähe", example: "Wir sehen einen Film.", note: "sehen + 4격 목적어 구조를 자주 확인하세요." },
-  { type: "동사", ko: ["읽다"], german: "lesen", past: "las", participle: "hat gelesen", subjunctive2: "läse", example: "Sie liest ein Buch.", note: "du liest, er/sie/es liest처럼 현재형 어간 변화가 있습니다." },
-  { type: "동사", ko: ["쓰다"], german: "schreiben", past: "schrieb", participle: "hat geschrieben", subjunctive2: "schriebe", example: "Ich schreibe einen Brief.", note: "강변화 동사지만 완료형 조동사는 haben입니다." },
-  { type: "동사", ko: ["먹다"], german: "essen", past: "aß", participle: "hat gegessen", subjunctive2: "äße", example: "Wir essen zusammen.", note: "du isst, er/sie/es isst 형태를 함께 익히면 좋습니다." },
-  { type: "동사", ko: ["마시다"], german: "trinken", past: "trank", participle: "hat getrunken", subjunctive2: "tränke", example: "Ich trinke Wasser.", note: "불규칙 변화: i-a-u 계열입니다." },
-  { type: "동사", ko: ["하다", "만들다"], german: "machen", past: "machte", participle: "hat gemacht", subjunctive2: "machte", example: "Was machst du?", note: "규칙 동사라 과거와 접속법 2식 형태가 같습니다." },
-  { type: "동사", ko: ["생각하다"], german: "denken", past: "dachte", participle: "hat gedacht", subjunctive2: "dächte", example: "Ich denke an dich.", note: "혼합변화 동사입니다." },
-  { type: "동사", ko: ["알다", "지식으로 알다"], german: "wissen", past: "wusste", participle: "hat gewusst", subjunctive2: "wüsste", example: "Ich weiß die Antwort.", note: "kennen은 사람/장소를 안다는 뜻에 더 가깝습니다." },
-];
+const WORDS = WORD_DATA as WordEntry[];
+const DAILY_GOAL = 8;
 
 function normalize(value: string) {
   return value.trim().toLowerCase().replace(/\s+/g, " ");
@@ -56,35 +36,60 @@ function normalize(value: string) {
 
 function findWords(query: string, mode: WordMode) {
   const normalized = normalize(query);
-
   return WORDS.filter((entry) => {
     const typeMatch = mode === "전체" || entry.type === mode;
     if (!normalized) return typeMatch;
-
-    const koMatch = entry.ko.some((meaning) => meaning.includes(normalized));
-    const deMatch = entry.german.toLowerCase().includes(normalized);
-    return typeMatch && (koMatch || deMatch);
+    return typeMatch && (entry.ko.some((meaning) => meaning.includes(normalized)) || entry.german.toLowerCase().includes(normalized));
   });
 }
 
+function WordForms({ entry }: { entry: WordEntry }) {
+  if (entry.type === "명사") {
+    return (
+      <dl className="forms-grid noun-forms">
+        <div><dt>성</dt><dd>{entry.article}</dd></div>
+        <div><dt>복수형</dt><dd>{entry.plural}</dd></div>
+      </dl>
+    );
+  }
+
+  return (
+    <dl className="forms-grid">
+      <div><dt>과거</dt><dd>{entry.past}</dd></div>
+      <div><dt>과거분사</dt><dd>{entry.participle}</dd></div>
+      <div><dt>접속법 2식</dt><dd>{entry.subjunctive2}</dd></div>
+    </dl>
+  );
+}
+
 export default function Home() {
-  const [wordQuery, setWordQuery] = useState("책");
+  const [activeView, setActiveView] = useState<ActiveView>("learn");
+  const [studyIndex, setStudyIndex] = useState(0);
+  const [isRevealed, setIsRevealed] = useState(false);
+  const [learnedWords, setLearnedWords] = useState<string[]>([]);
+  const [wordQuery, setWordQuery] = useState("");
   const [wordMode, setWordMode] = useState<WordMode>("전체");
   const [recentQueries, setRecentQueries] = useState<string[]>([]);
+  const [selectedGerman, setSelectedGerman] = useState(WORDS[0].german);
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("/sw.js").catch(() => undefined);
     }
 
-    const stored = window.localStorage.getItem("deutsch-dictionary-recent");
-    if (stored) setRecentQueries(JSON.parse(stored));
+    const storedRecent = window.localStorage.getItem("deutsch-dictionary-recent");
+    const storedLearned = window.localStorage.getItem("deutsch-learned-today");
+    if (storedRecent) setRecentQueries(JSON.parse(storedRecent));
+    if (storedLearned) setLearnedWords(JSON.parse(storedLearned));
   }, []);
 
   const wordResults = useMemo(() => findWords(wordQuery, wordMode), [wordQuery, wordMode]);
-  const selectedWord = wordResults[0] ?? WORDS[0];
+  const selectedWord = wordResults.find((entry) => entry.german === selectedGerman) ?? wordResults[0] ?? WORDS[0];
+  const studyWord = WORDS[studyIndex % WORDS.length];
   const nounCount = WORDS.filter((word) => word.type === "명사").length;
   const verbCount = WORDS.filter((word) => word.type === "동사").length;
+  const completedCount = Math.min(learnedWords.length, DAILY_GOAL);
+  const progress = (completedCount / DAILY_GOAL) * 100;
 
   function runSearch(nextQuery: string) {
     setWordQuery(nextQuery);
@@ -96,120 +101,126 @@ export default function Home() {
     window.localStorage.setItem("deutsch-dictionary-recent", JSON.stringify(nextRecent));
   }
 
+  function moveToNextWord(markLearned: boolean) {
+    if (markLearned && !learnedWords.includes(studyWord.german)) {
+      const nextLearned = [...learnedWords, studyWord.german];
+      setLearnedWords(nextLearned);
+      window.localStorage.setItem("deutsch-learned-today", JSON.stringify(nextLearned));
+    }
+
+    setStudyIndex((index) => index + 1);
+    setIsRevealed(false);
+  }
+
   return (
     <main className="app-shell">
-      <header className="app-header">
-        <div>
-          <p className="eyebrow">Offline Deutsch Trainer</p>
-          <h1>오프라인 단어사전</h1>
-        </div>
-        <div className="header-meta" aria-label="사전 상태">
-          <span>명사 {nounCount}개</span>
-          <span>동사 {verbCount}개</span>
-          <span>인터넷 불필요</span>
-        </div>
-      </header>
+      <aside className="side-rail">
+        <button className="brand" onClick={() => setActiveView("learn")} type="button" aria-label="학습 홈으로 이동">
+          <span className="brand-mark" aria-hidden="true">W</span>
+          <span>WORTWEG</span>
+        </button>
 
-      <section className="dictionary-shell">
-        <aside className="dictionary-sidebar">
-          <div className="sidebar-section">
-            <p className="section-kicker">품사</p>
-            <div className="mode-list" aria-label="품사 필터">
+        <nav className="primary-nav" aria-label="주요 메뉴">
+          <button className={activeView === "learn" ? "active" : ""} onClick={() => setActiveView("learn")} type="button">
+            <span className="nav-dot learn-dot" aria-hidden="true" />학습
+          </button>
+          <button className={activeView === "dictionary" ? "active" : ""} onClick={() => setActiveView("dictionary")} type="button">
+            <span className="nav-dot dictionary-dot" aria-hidden="true" />단어사전
+          </button>
+        </nav>
+
+        <div className="rail-status">
+          <p>오프라인 모드</p>
+          <strong>내장 단어 {WORDS.length}개</strong>
+          <span>인터넷 연결 없이 학습할 수 있어요.</span>
+        </div>
+      </aside>
+
+      <section className="workspace">
+        <header className="topbar">
+          <div className="topbar-title"><span className="locale-chip">DE</span><p>독일어 단어 훈련</p></div>
+          <div className="topbar-stats" aria-label="오늘의 학습 현황"><span>오늘 {completedCount}/{DAILY_GOAL}</span><span className="offline-dot">오프라인</span></div>
+        </header>
+
+        {activeView === "learn" ? (
+          <section className="learn-view" aria-label="단어 학습">
+            <div className="learn-heading">
+              <div><p className="eyebrow">오늘의 단어</p><h1>한 단어씩, 확실하게.</h1></div>
+              <div className="goal-progress" aria-label={`오늘의 목표 ${completedCount} / ${DAILY_GOAL}`}>
+                <div className="progress-label"><span>오늘의 목표</span><strong>{completedCount}/{DAILY_GOAL}</strong></div>
+                <div className="progress-track"><span style={{ width: `${progress}%` }} /></div>
+              </div>
+            </div>
+
+            <section className="challenge-card">
+              <div className="challenge-copy">
+                <p className="prompt-label">이 뜻을 독일어로 말해보세요</p>
+                <h2>{studyWord.ko[0]}</h2>
+                {studyWord.ko.length > 1 && <p className="alternate-meaning">{studyWord.ko.slice(1).join(", ")}</p>}
+              </div>
+              <img className="guide-image" src="/blue-dragon-guide.png" alt="단어 학습을 돕는 파란 용" />
+
+              {isRevealed ? (
+                <div className="answer-area">
+                  <div className="answer-word">
+                    <span className={`type-chip ${studyWord.type === "명사" ? "noun" : "verb"}`}>{studyWord.type}</span>
+                    <strong>{studyWord.type === "명사" ? `${studyWord.article} ${studyWord.german}` : studyWord.german}</strong>
+                  </div>
+                  <WordForms entry={studyWord} />
+                  <p className="word-note">{studyWord.note}</p>
+                  <div className="answer-actions">
+                    <button className="secondary-button" onClick={() => moveToNextWord(false)} type="button">다시 보기</button>
+                    <button className="primary-button" onClick={() => moveToNextWord(true)} type="button">알겠어요</button>
+                  </div>
+                </div>
+              ) : <button className="primary-button reveal-button" onClick={() => setIsRevealed(true)} type="button">정답 보기</button>}
+            </section>
+
+            <section className="learn-footer" aria-label="학습 정보">
+              <div><span>다음</span><strong>{WORDS[(studyIndex + 1) % WORDS.length].ko[0]}</strong></div>
+              <div><span>명사</span><strong>{nounCount}개</strong></div>
+              <div><span>동사</span><strong>{verbCount}개</strong></div>
+            </section>
+          </section>
+        ) : (
+          <section className="dictionary-view" aria-label="독일어 단어사전">
+            <div className="dictionary-heading"><div><p className="eyebrow">내장 사전</p><h1>단어를 찾아보세요</h1></div><span>{WORDS.length}개 단어</span></div>
+            <form className="dictionary-search" onSubmit={(event) => { event.preventDefault(); runSearch(wordQuery); }}>
+              <label><span className="sr-only">검색어</span><input value={wordQuery} onChange={(event) => setWordQuery(event.target.value)} placeholder="한국어 뜻 또는 독일어 단어" /></label>
+              <button className="primary-button" type="submit">검색</button>
+            </form>
+
+            <div className="filter-row" aria-label="품사 필터">
               {(["전체", "명사", "동사"] as const).map((mode) => (
                 <button className={wordMode === mode ? "active" : ""} key={mode} onClick={() => setWordMode(mode)} type="button">
-                  <span>{mode}</span>
-                  <strong>{mode === "전체" ? WORDS.length : WORDS.filter((word) => word.type === mode).length}</strong>
+                  {mode} <span>{mode === "전체" ? WORDS.length : mode === "명사" ? nounCount : verbCount}</span>
                 </button>
               ))}
             </div>
-          </div>
 
-          {recentQueries.length > 0 && (
-            <div className="sidebar-section">
-              <p className="section-kicker">최근 검색</p>
-              <div className="recent-list">
-                {recentQueries.map((query) => (
-                  <button key={query} onClick={() => setWordQuery(query)} type="button">
-                    {query}
+            {recentQueries.length > 0 && <div className="recent-row" aria-label="최근 검색"><span>최근 검색</span>{recentQueries.map((query) => <button key={query} onClick={() => setWordQuery(query)} type="button">{query}</button>)}</div>}
+
+            <div className="dictionary-grid">
+              <section className="result-list" aria-label="검색 결과">
+                <div className="result-heading"><strong>검색 결과</strong><span>{wordResults.length}개</span></div>
+                {wordResults.length > 0 ? wordResults.map((entry) => (
+                  <button className={selectedWord.german === entry.german ? "word-row selected" : "word-row"} key={`${entry.type}-${entry.german}`} onClick={() => setSelectedGerman(entry.german)} type="button">
+                    <span className={`type-chip ${entry.type === "명사" ? "noun" : "verb"}`}>{entry.type}</span>
+                    <span><strong>{entry.type === "명사" ? `${entry.article} ${entry.german}` : entry.german}</strong><small>{entry.ko.join(", ")}</small></span>
                   </button>
-                ))}
-              </div>
+                )) : <p className="empty-state">아직 이 단어는 내장 사전에 없습니다.</p>}
+              </section>
+
+              <article className="word-detail" aria-label="선택한 단어의 형태">
+                <span className={`type-chip ${selectedWord.type === "명사" ? "noun" : "verb"}`}>{selectedWord.type}</span>
+                <h2>{selectedWord.type === "명사" ? `${selectedWord.article} ${selectedWord.german}` : selectedWord.german}</h2>
+                <p className="meaning">{selectedWord.ko.join(", ")}</p>
+                <WordForms entry={selectedWord} />
+                <p className="word-note">{selectedWord.note}</p>
+              </article>
             </div>
-          )}
-        </aside>
-
-        <section className="dictionary-main">
-          <div className="search-panel">
-            <div>
-              <p className="section-kicker">검색</p>
-              <h2>한국어 뜻이나 독일어 단어를 입력하세요</h2>
-            </div>
-            <label className="search-field">
-              <span>검색어</span>
-              <input
-                value={wordQuery}
-                onBlur={(event) => runSearch(event.target.value)}
-                onChange={(event) => setWordQuery(event.target.value)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter") runSearch(event.currentTarget.value);
-                }}
-                placeholder="예: 책, 가다, Schule"
-              />
-            </label>
-          </div>
-
-          <div className="dictionary-content">
-            <section className="result-list" aria-label="검색 결과">
-              <div className="result-heading">
-                <strong>검색 결과</strong>
-                <span>{wordResults.length}개</span>
-              </div>
-
-              {wordResults.length > 0 ? (
-                wordResults.map((entry) => (
-                  <button className="word-row" key={`${entry.type}-${entry.german}`} onClick={() => runSearch(entry.ko[0])} type="button">
-                    <span className={`badge ${entry.type === "명사" ? "noun" : "verb"}`}>{entry.type}</span>
-                    <strong>{entry.type === "명사" ? `${entry.article} ${entry.german}` : entry.german}</strong>
-                    <small>{entry.ko.join(", ")}</small>
-                  </button>
-                ))
-              ) : (
-                <div className="empty-state">
-                  아직 내장 사전에 없는 항목입니다. 명사는 성과 복수형, 동사는 과거-과거분사-접속법 2식을 확인해 추가하면 됩니다.
-                </div>
-              )}
-            </section>
-
-            <article className="detail-card" aria-label="선택 단어 상세">
-              <div className="detail-topline">
-                <span className={`badge ${selectedWord.type === "명사" ? "noun" : "verb"}`}>{selectedWord.type}</span>
-                <div>
-                  <h2>{selectedWord.type === "명사" ? `${selectedWord.article} ${selectedWord.german}` : selectedWord.german}</h2>
-                  <p>{selectedWord.ko.join(", ")}</p>
-                </div>
-              </div>
-
-              {selectedWord.type === "명사" ? (
-                <dl className="forms-grid">
-                  <div><dt>성</dt><dd>{selectedWord.article}</dd></div>
-                  <div><dt>복수형</dt><dd>{selectedWord.plural}</dd></div>
-                </dl>
-              ) : (
-                <dl className="forms-grid">
-                  <div><dt>과거</dt><dd>{selectedWord.past}</dd></div>
-                  <div><dt>과거분사</dt><dd>{selectedWord.participle}</dd></div>
-                  <div><dt>접속법 2식</dt><dd>{selectedWord.subjunctive2}</dd></div>
-                </dl>
-              )}
-
-              <div className="example-block">
-                <span>예문</span>
-                <p>{selectedWord.example}</p>
-              </div>
-              <p className="note">{selectedWord.note}</p>
-            </article>
-          </div>
-        </section>
+          </section>
+        )}
       </section>
     </main>
   );

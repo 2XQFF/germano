@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "오프라인 독일어 단어사전",
-  description: "한국어 뜻으로 독일어 명사의 성과 복수형, 동사의 주요 변화를 확인하는 오프라인 단어사전.",
+  title: "WORTWEG | 오프라인 독일어 학습",
+  description: "인터넷 없이 독일어 단어를 학습하고 명사의 성과 복수형, 동사의 주요 변화를 확인하세요.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",

@@ -3,610 +3,77 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>오프라인 독일어 단어사전</title>
-    <meta
-      name="description"
-      content="한국어 뜻으로 독일어 명사의 성과 복수형, 동사의 주요 변화를 확인하는 오프라인 단어사전."
-    />
+    <title>WORTWEG | 오프라인 독일어 학습</title>
+    <meta name="description" content="인터넷 없이 독일어 단어를 학습하고 명사의 성과 복수형, 동사의 주요 변화를 확인하세요." />
     <style>
-      :root {
-        --background: #eef1f4;
-        --surface: #fbfcfd;
-        --surface-strong: #ffffff;
-        --foreground: #1d232c;
-        --muted: #66717f;
-        --line: #d7dde5;
-        --blue: #245f9d;
-        --green: #27745a;
-        --shadow: 0 18px 46px rgba(29, 35, 44, 0.1);
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        background: var(--background);
-        color: var(--foreground);
-        font-family: Arial, "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
-      }
-
-      button,
-      input {
-        font: inherit;
-      }
-
-      button {
-        cursor: pointer;
-      }
-
-      .app-shell {
-        min-height: 100vh;
-        padding: 28px clamp(16px, 4vw, 56px) 48px;
-      }
-
-      .app-header {
-        display: flex;
-        gap: 20px;
-        align-items: center;
-        justify-content: space-between;
-        max-width: 1180px;
-        margin: 0 auto 18px;
-      }
-
-      .eyebrow,
-      .section-kicker {
-        margin: 0 0 8px;
-        color: var(--blue);
-        font-size: 0.78rem;
-        font-weight: 800;
-        text-transform: uppercase;
-      }
-
-      h1,
-      h2,
-      p {
-        margin-top: 0;
-      }
-
-      h1 {
-        margin-bottom: 0;
-        font-size: clamp(2rem, 4vw, 3.8rem);
-        line-height: 1.05;
-      }
-
-      .header-meta {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-      }
-
-      .header-meta span {
-        padding: 9px 12px;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        background: var(--surface);
-        color: #3d4652;
-        font-weight: 800;
-      }
-
-      .dictionary-shell {
-        display: grid;
-        grid-template-columns: 260px minmax(0, 1fr);
-        gap: 18px;
-        max-width: 1180px;
-        margin: 0 auto;
-      }
-
-      .dictionary-sidebar,
-      .dictionary-main,
-      .detail-card,
-      .result-list,
-      .search-panel {
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: var(--surface-strong);
-        box-shadow: var(--shadow);
-      }
-
-      .dictionary-sidebar {
-        display: grid;
-        align-content: start;
-        gap: 20px;
-        padding: 18px;
-      }
-
-      .sidebar-section,
-      .mode-list,
-      .recent-list {
-        display: grid;
-        gap: 8px;
-      }
-
-      .mode-list button,
-      .recent-list button {
-        min-height: 44px;
-        padding: 9px 11px;
-        border: 1px solid transparent;
-        border-radius: 7px;
-        background: #f4f7fa;
-        color: #35404c;
-        text-align: left;
-      }
-
-      .mode-list button {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-      }
-
-      .mode-list button.active,
-      .mode-list button:hover,
-      .recent-list button:hover {
-        border-color: #c5d1dd;
-        background: #ffffff;
-      }
-
-      .mode-list button.active {
-        color: var(--blue);
-      }
-
-      .mode-list span {
-        color: var(--muted);
-        font-weight: 800;
-      }
-
-      .dictionary-main {
-        min-width: 0;
-        padding: clamp(18px, 3vw, 28px);
-      }
-
-      .search-panel {
-        display: grid;
-        grid-template-columns: minmax(0, 0.8fr) minmax(280px, 1fr);
-        gap: 20px;
-        align-items: end;
-        margin-bottom: 18px;
-        padding: 20px;
-        box-shadow: none;
-      }
-
-      .search-panel h2 {
-        margin-bottom: 0;
-        font-size: clamp(1.45rem, 3vw, 2.3rem);
-        line-height: 1.15;
-      }
-
-      .search-field {
-        display: grid;
-        gap: 8px;
-        color: #333b46;
-        font-weight: 800;
-      }
-
-      input {
-        width: 100%;
-        min-height: 52px;
-        padding: 0 15px;
-        border: 1px solid #bbc5d0;
-        border-radius: 8px;
-        background: #fff;
-        color: var(--foreground);
-        outline: none;
-      }
-
-      input:focus {
-        border-color: var(--blue);
-        box-shadow: 0 0 0 3px rgba(36, 95, 157, 0.16);
-      }
-
-      .dictionary-content {
-        display: grid;
-        grid-template-columns: minmax(260px, 0.8fr) minmax(320px, 1.2fr);
-        gap: 18px;
-        align-items: start;
-      }
-
-      .result-list {
-        display: grid;
-        gap: 10px;
-        padding: 14px;
-        box-shadow: none;
-      }
-
-      .result-heading {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 4px 2px 8px;
-        color: var(--muted);
-      }
-
-      .result-heading strong {
-        color: var(--foreground);
-      }
-
-      .word-row {
-        display: grid;
-        grid-template-columns: auto minmax(110px, 0.8fr) minmax(90px, 1fr);
-        gap: 10px;
-        align-items: center;
-        min-height: 56px;
-        padding: 10px 12px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: #fff;
-        color: var(--foreground);
-        text-align: left;
-      }
-
-      .word-row:hover {
-        border-color: #b5c4d3;
-        background: #f8fafc;
-      }
-
-      .word-row small {
-        color: var(--muted);
-        font-weight: 700;
-      }
-
-      .badge {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 28px;
-        min-width: 44px;
-        padding: 0 10px;
-        border-radius: 999px;
-        color: white;
-        font-size: 0.82rem;
-        font-weight: 900;
-      }
-
-      .badge.noun {
-        background: var(--blue);
-      }
-
-      .badge.verb {
-        background: var(--green);
-      }
-
-      .detail-card {
-        padding: clamp(18px, 3vw, 26px);
-        box-shadow: none;
-      }
-
-      .detail-topline {
-        display: flex;
-        gap: 14px;
-        align-items: flex-start;
-        margin-bottom: 22px;
-      }
-
-      .detail-topline h2 {
-        margin-bottom: 6px;
-        font-size: clamp(2rem, 5vw, 3.5rem);
-        line-height: 1;
-      }
-
-      .detail-topline p {
-        margin-bottom: 0;
-        color: var(--muted);
-        font-weight: 800;
-      }
-
-      .forms-grid {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-        margin: 0 0 18px;
-      }
-
-      .forms-grid div,
-      .example-block {
-        padding: 14px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        background: #f7f9fb;
-      }
-
-      dt,
-      .example-block span {
-        color: var(--muted);
-        font-size: 0.82rem;
-        font-weight: 900;
-      }
-
-      dd {
-        margin: 5px 0 0;
-        color: var(--foreground);
-        font-size: 1.18rem;
-        font-weight: 900;
-        overflow-wrap: anywhere;
-      }
-
-      .example-block {
-        margin-bottom: 14px;
-      }
-
-      .example-block p {
-        margin: 8px 0 0;
-        color: #29313a;
-        font-size: 1.1rem;
-        font-weight: 800;
-        line-height: 1.45;
-      }
-
-      .note,
-      .empty-state {
-        color: #5a6572;
-        line-height: 1.6;
-      }
-
-      .note {
-        margin-bottom: 0;
-      }
-
-      .empty-state {
-        padding: 18px;
-      }
-
-      @media (max-width: 940px) {
-        .app-header,
-        .dictionary-shell,
-        .search-panel,
-        .dictionary-content {
-          grid-template-columns: 1fr;
-        }
-
-        .app-header {
-          display: grid;
-        }
-
-        .header-meta {
-          justify-content: start;
-        }
-
-      }
-
-      @media (max-width: 620px) {
-        .app-shell {
-          padding: 18px 12px 32px;
-        }
-
-        .dictionary-sidebar,
-        .dictionary-main {
-          padding: 14px;
-        }
-
-        .word-row,
-        .forms-grid {
-          grid-template-columns: 1fr;
-        }
-      }
+      :root { --ink:#24313a;--muted:#6b7c85;--line:#d7e2e6;--canvas:#f7fbfa;--surface:#fff;--green:#58c53f;--green-dark:#46a932;--green-pale:#e6f8df;--blue-pale:#e5f6fe;--yellow-pale:#fff4d2;--shadow:0 3px 0 #cde0d8; }
+      * { box-sizing:border-box; } html { background:var(--canvas); } body { margin:0;background:var(--canvas);color:var(--ink);font-family:Arial,"Malgun Gothic","Apple SD Gothic Neo",sans-serif; } button,input { font:inherit; } button { cursor:pointer; } h1,h2,p { margin-top:0; }
+      .app-shell { display:grid;grid-template-columns:238px minmax(0,1fr);min-height:100vh; }.side-rail { display:flex;flex-direction:column;min-height:100vh;padding:30px 22px;border-right:1px solid var(--line);background:var(--surface); }.brand { display:inline-flex;align-items:center;gap:9px;width:fit-content;padding:0;border:0;background:transparent;color:var(--green-dark);font-size:1.2rem;font-weight:900; }.brand-mark { display:grid;width:32px;height:32px;place-items:center;border-radius:8px;background:var(--green);box-shadow:inset 0 -3px 0 rgba(33,127,51,.3);color:#fff;font-size:1rem; }.primary-nav { display:grid;gap:8px;margin-top:48px; }.primary-nav button { display:flex;align-items:center;gap:12px;min-height:48px;padding:0 13px;border:1px solid transparent;border-radius:8px;background:transparent;color:var(--muted);font-weight:800;text-align:left; }.primary-nav button:hover { background:#f1f7f4;color:var(--ink); }.primary-nav button.active { border-color:#bfe5b5;background:var(--green-pale);color:var(--green-dark); }.nav-dot { width:14px;height:14px;border:3px solid currentColor;border-radius:50%; }.dictionary-dot { border-radius:3px; }.rail-status { display:grid;gap:7px;margin-top:auto;padding-top:24px;border-top:1px solid var(--line); }.rail-status p { margin-bottom:0;color:var(--green-dark);font-size:.78rem;font-weight:900;text-transform:uppercase; }.rail-status strong { font-size:.92rem; }.rail-status span { color:var(--muted);font-size:.8rem;line-height:1.5; }
+      .workspace { width:min(100%,1120px);padding:24px 48px 56px;margin:0 auto; }.topbar { display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:44px; }.topbar-title,.topbar-stats { display:flex;align-items:center;gap:10px; }.topbar-title p { margin-bottom:0;color:var(--muted);font-size:.92rem;font-weight:800; }.locale-chip,.offline-dot { display:inline-flex;align-items:center;justify-content:center;min-height:28px;padding:0 9px;border-radius:999px;font-size:.75rem;font-weight:900; }.locale-chip { background:var(--yellow-pale);color:#a26d00; }.topbar-stats { color:var(--muted);font-size:.86rem;font-weight:800; }.offline-dot { background:var(--green-pale);color:var(--green-dark); }.learn-view,.dictionary-view { margin-top:54px; }.learn-heading,.dictionary-heading { display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:26px; }.eyebrow { margin-bottom:8px;color:var(--green-dark);font-size:.78rem;font-weight:900;text-transform:uppercase; } h1 { margin-bottom:0;font-size:2rem;line-height:1.16; }.goal-progress { width:min(100%,260px); }.progress-label { display:flex;justify-content:space-between;margin-bottom:9px;color:var(--muted);font-size:.8rem;font-weight:800; }.progress-label strong { color:var(--green-dark); }.progress-track { height:12px;overflow:hidden;border-radius:999px;background:#dfecea; }.progress-track span { display:block;height:100%;border-radius:inherit;background:var(--green);transition:width .18s ease; }
+      .challenge-card { position:relative;min-height:500px;overflow:hidden;padding:44px 48px 36px;border:2px solid #cee2d7;border-radius:8px;background:var(--surface);box-shadow:var(--shadow); }.challenge-copy { position:relative;z-index:1;max-width:540px; }.prompt-label { margin-bottom:12px;color:var(--muted);font-size:.92rem;font-weight:800; }.challenge-copy h2 { margin-bottom:4px;font-size:3rem;line-height:1.05; }.alternate-meaning { margin-bottom:0;color:var(--muted);font-weight:700; }.guide-image { position:absolute;top:26px;right:34px;width:min(36%,300px);max-height:285px;object-fit:contain;object-position:center; }.primary-button,.secondary-button { min-height:48px;padding:0 22px;border-radius:8px;font-weight:900; }.primary-button { border:1px solid var(--green-dark);border-bottom-width:4px;background:var(--green);color:#fff; }.primary-button:hover { background:#63cf49; }.primary-button:active,.secondary-button:active { transform:translateY(2px);border-bottom-width:2px; }.secondary-button { border:1px solid #b6d5e4;border-bottom-width:4px;background:var(--blue-pale);color:#277aa6; }.reveal-button { position:absolute;bottom:36px;left:48px; }.answer-area { position:relative;z-index:1;max-width:620px;margin-top:42px; }.answer-word { display:flex;align-items:center;gap:12px;margin-bottom:20px; }.answer-word strong { font-size:2.15rem;line-height:1; }.type-chip { display:inline-flex;align-items:center;justify-content:center;min-width:45px;min-height:25px;padding:0 8px;border-radius:999px;font-size:.72rem;font-weight:900; }.type-chip.noun { background:var(--blue-pale);color:#1977a9; }.type-chip.verb { background:var(--yellow-pale);color:#956900; }.forms-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line); }.forms-grid.noun-forms { grid-template-columns:repeat(2,minmax(0,1fr)); }.forms-grid div { min-width:0;padding:15px 14px 15px 0; }.forms-grid div+div { padding-left:14px;border-left:1px solid var(--line); } dt { color:var(--muted);font-size:.76rem;font-weight:900; } dd { margin:7px 0 0;font-size:1rem;font-weight:900;overflow-wrap:anywhere; }.word-note { margin:17px 0 0;color:var(--muted);font-size:.9rem;line-height:1.55; }.answer-actions { display:flex;justify-content:flex-end;gap:10px;margin-top:24px; }.learn-footer { display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:0;margin-top:32px;border-top:1px solid var(--line);border-bottom:1px solid var(--line); }.learn-footer div { display:grid;gap:5px;padding:17px 0; }.learn-footer div+div { padding-left:20px;border-left:1px solid var(--line); }.learn-footer span { color:var(--muted);font-size:.75rem;font-weight:900; }.learn-footer strong { font-size:.95rem; }
+      .dictionary-heading>span { color:var(--muted);font-size:.88rem;font-weight:800; }.dictionary-search { display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin-bottom:20px; } input { width:100%;min-height:50px;padding:0 15px;border:2px solid #cbdcdf;border-radius:8px;background:var(--surface);color:var(--ink);font-weight:700;outline:0; } input:focus { border-color:var(--green);box-shadow:0 0 0 3px var(--green-pale); }.sr-only { position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0; }.filter-row,.recent-row { display:flex;align-items:center;gap:8px;flex-wrap:wrap; }.filter-row { margin-bottom:14px; }.filter-row button,.recent-row button { min-height:34px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:var(--surface);color:var(--muted);font-size:.83rem;font-weight:800; }.filter-row button:hover,.recent-row button:hover { border-color:#a5d69a;color:var(--green-dark); }.filter-row button.active { border-color:var(--green);background:var(--green-pale);color:var(--green-dark); }.filter-row button span { margin-left:4px; }.recent-row { margin:0 0 26px; }.recent-row>span { margin-right:4px;color:var(--muted);font-size:.8rem;font-weight:900; }.dictionary-grid { display:grid;grid-template-columns:minmax(280px,.88fr) minmax(320px,1.12fr);gap:34px;align-items:start; }.result-list { display:grid;gap:9px; }.result-heading { display:flex;align-items:center;justify-content:space-between;padding-bottom:6px;color:var(--muted);font-size:.88rem; }.result-heading strong { color:var(--ink); }.word-row { display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:12px;width:100%;min-height:64px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);text-align:left; }.word-row:hover { border-color:#a5d69a;background:#fbfffa; }.word-row.selected { border-color:var(--green);box-shadow:inset 4px 0 0 var(--green); }.word-row>span:last-child { display:grid;gap:4px;min-width:0; }.word-row strong { overflow-wrap:anywhere; }.word-row small { color:var(--muted);font-size:.78rem;font-weight:700;overflow-wrap:anywhere; }.word-detail { padding:30px;border:2px solid #cee2d7;border-radius:8px;background:var(--surface);box-shadow:var(--shadow); }.word-detail h2 { margin:18px 0 6px;font-size:2.3rem;line-height:1;overflow-wrap:anywhere; }.meaning { margin-bottom:26px;color:var(--muted);font-weight:800; }.empty-state { margin:0;padding:24px 0;color:var(--muted);line-height:1.6; }
+      @media (max-width:860px) { .app-shell { grid-template-columns:1fr; }.side-rail { min-height:auto;padding:16px 18px;border-right:0;border-bottom:1px solid var(--line); }.primary-nav { display:flex;margin-top:17px; }.primary-nav button { min-height:40px; }.rail-status { display:none; }.workspace { padding:24px 22px 42px; }.learn-view,.dictionary-view { margin-top:36px; } }
+      @media (max-width:640px) { .topbar { align-items:flex-start; }.topbar-stats { justify-content:flex-end;flex-wrap:wrap; }.learn-heading,.dictionary-heading { display:grid;align-items:start;gap:18px; } h1 { font-size:1.65rem; }.goal-progress { width:100%; }.challenge-card { min-height:510px;padding:30px 22px 28px; }.challenge-copy h2 { font-size:2.4rem; }.guide-image { top:22px;right:10px;width:42%;max-height:175px;opacity:.28; }.reveal-button { right:22px;bottom:28px;left:22px;width:calc(100% - 44px); }.answer-area { margin-top:36px; }.answer-word strong { font-size:1.8rem; }.forms-grid,.forms-grid.noun-forms { grid-template-columns:1fr; }.forms-grid div,.forms-grid div+div { padding:12px 0;border-left:0; }.forms-grid div+div { border-top:1px solid var(--line); }.answer-actions { display:grid;grid-template-columns:1fr 1fr; }.answer-actions button { padding:0 10px; }.learn-footer { grid-template-columns:1fr; }.learn-footer div+div { padding-left:0;border-top:1px solid var(--line);border-left:0; }.dictionary-search,.dictionary-grid { grid-template-columns:1fr; }.dictionary-search .primary-button { width:100%; }.word-detail { padding:23px; } }
     </style>
   </head>
   <body>
-    <main class="app-shell">
-      <header class="app-header">
-        <div>
-          <p class="eyebrow">Offline Deutsch Trainer</p>
-          <h1>오프라인 단어사전</h1>
-        </div>
-        <div class="header-meta" aria-label="사전 상태">
-          <span id="noun-count">명사 0개</span>
-          <span id="verb-count">동사 0개</span>
-          <span>인터넷 불필요</span>
-        </div>
-      </header>
-
-      <section class="dictionary-shell">
-        <aside class="dictionary-sidebar">
-          <div class="sidebar-section">
-            <p class="section-kicker">품사</p>
-            <div class="mode-list" id="mode-list" aria-label="품사 필터"></div>
-          </div>
-          <div class="sidebar-section" id="recent-section" hidden>
-            <p class="section-kicker">최근 검색</p>
-            <div class="recent-list" id="recent-list"></div>
-          </div>
-        </aside>
-
-        <section class="dictionary-main">
-          <div class="search-panel">
-            <div>
-              <p class="section-kicker">검색</p>
-              <h2>한국어 뜻이나 독일어 단어를 입력하세요</h2>
-            </div>
-            <label class="search-field">
-              <span>검색어</span>
-              <input id="search-input" placeholder="예: 책, 가다, Schule" value="책" />
-            </label>
-          </div>
-
-          <div class="dictionary-content">
-            <section class="result-list" aria-label="검색 결과">
-              <div class="result-heading">
-                <strong>검색 결과</strong>
-                <span id="result-count">0개</span>
-              </div>
-              <div id="result-list"></div>
-            </section>
-
-            <article class="detail-card" id="detail-card" aria-label="선택 단어 상세"></article>
-          </div>
-        </section>
-      </section>
-    </main>
-
+    <div id="app"></div>
     <script>
-      const words = [
-        { type: "명사", ko: ["책", "도서"], german: "Buch", article: "das", plural: "Bücher", example: "Ich lese ein Buch.", note: "중성 명사이며 복수에서 움라우트가 생깁니다." },
-        { type: "명사", ko: ["학교"], german: "Schule", article: "die", plural: "Schulen", example: "Die Schule beginnt um acht Uhr.", note: "-e로 끝나는 여성 명사는 복수 -n이 자주 붙습니다." },
-        { type: "명사", ko: ["친구", "남자 친구"], german: "Freund", article: "der", plural: "Freunde", example: "Mein Freund kommt heute.", note: "여자 친구는 die Freundin, 복수는 Freundinnen입니다." },
-        { type: "명사", ko: ["시간", "시각"], german: "Zeit", article: "die", plural: "Zeiten", example: "Ich habe keine Zeit.", note: "추상명사로 관용 표현에 자주 쓰입니다." },
-        { type: "명사", ko: ["집", "가정"], german: "Haus", article: "das", plural: "Häuser", example: "Das Haus ist alt.", note: "복수형에서 au가 äu로 바뀝니다." },
-        { type: "명사", ko: ["사람", "인간"], german: "Mensch", article: "der", plural: "Menschen", example: "Der Mensch lernt jeden Tag.", note: "약변화 명사라 여러 격에서 -en을 확인해야 합니다." },
-        { type: "명사", ko: ["도시"], german: "Stadt", article: "die", plural: "Städte", example: "Berlin ist eine große Stadt.", note: "복수형에서 a가 ä로 바뀝니다." },
-        { type: "명사", ko: ["언어", "말"], german: "Sprache", article: "die", plural: "Sprachen", example: "Deutsch ist eine schöne Sprache.", note: "여성 명사이며 복수는 -n입니다." },
-        { type: "명사", ko: ["문장"], german: "Satz", article: "der", plural: "Sätze", example: "Der Satz ist richtig.", note: "복수형에서 a가 ä로 바뀝니다." },
-        { type: "명사", ko: ["시험"], german: "Prüfung", article: "die", plural: "Prüfungen", example: "Die Prüfung ist morgen.", note: "-ung 명사는 거의 항상 여성입니다." },
-        { type: "동사", ko: ["가다"], german: "gehen", past: "ging", participle: "ist gegangen", subjunctive2: "ginge", example: "Ich gehe zur Schule.", note: "이동 동사라 완료형에서 sein을 씁니다." },
-        { type: "동사", ko: ["오다"], german: "kommen", past: "kam", participle: "ist gekommen", subjunctive2: "käme", example: "Er kommt aus Korea.", note: "불규칙 동사이며 접속법 2식에 움라우트가 생깁니다." },
-        { type: "동사", ko: ["보다"], german: "sehen", past: "sah", participle: "hat gesehen", subjunctive2: "sähe", example: "Wir sehen einen Film.", note: "sehen + 4격 목적어 구조를 자주 확인하세요." },
-        { type: "동사", ko: ["읽다"], german: "lesen", past: "las", participle: "hat gelesen", subjunctive2: "läse", example: "Sie liest ein Buch.", note: "du liest, er/sie/es liest처럼 현재형 어간 변화가 있습니다." },
-        { type: "동사", ko: ["쓰다"], german: "schreiben", past: "schrieb", participle: "hat geschrieben", subjunctive2: "schriebe", example: "Ich schreibe einen Brief.", note: "강변화 동사지만 완료형 조동사는 haben입니다." },
-        { type: "동사", ko: ["먹다"], german: "essen", past: "aß", participle: "hat gegessen", subjunctive2: "äße", example: "Wir essen zusammen.", note: "du isst, er/sie/es isst 형태를 함께 익히면 좋습니다." },
-        { type: "동사", ko: ["마시다"], german: "trinken", past: "trank", participle: "hat getrunken", subjunctive2: "tränke", example: "Ich trinke Wasser.", note: "불규칙 변화: i-a-u 계열입니다." },
-        { type: "동사", ko: ["하다", "만들다"], german: "machen", past: "machte", participle: "hat gemacht", subjunctive2: "machte", example: "Was machst du?", note: "규칙 동사라 과거와 접속법 2식 형태가 같습니다." },
-        { type: "동사", ko: ["생각하다"], german: "denken", past: "dachte", participle: "hat gedacht", subjunctive2: "dächte", example: "Ich denke an dich.", note: "혼합변화 동사입니다." },
-        { type: "동사", ko: ["알다", "지식으로 알다"], german: "wissen", past: "wusste", participle: "hat gewusst", subjunctive2: "wüsste", example: "Ich weiß die Antwort.", note: "kennen은 사람/장소를 안다는 뜻에 더 가깝습니다." }
-      ];
-
-      const state = {
-        mode: "전체",
-        query: "책",
-        recent: JSON.parse(localStorage.getItem("deutsch-dictionary-recent") || "[]")
-      };
-
-      const input = document.getElementById("search-input");
-      const resultList = document.getElementById("result-list");
-      const resultCount = document.getElementById("result-count");
-      const detailCard = document.getElementById("detail-card");
-      const modeList = document.getElementById("mode-list");
-      const recentList = document.getElementById("recent-list");
-      const recentSection = document.getElementById("recent-section");
-
-      document.getElementById("noun-count").textContent = `명사 ${words.filter((word) => word.type === "명사").length}개`;
-      document.getElementById("verb-count").textContent = `동사 ${words.filter((word) => word.type === "동사").length}개`;
-
-      function normalize(value) {
-        return value.trim().toLowerCase().replace(/\s+/g, " ");
+      const DAILY_GOAL = 8;
+      const app = document.getElementById("app");
+      const readList = (key) => { try { const value = JSON.parse(localStorage.getItem(key) || "[]"); return Array.isArray(value) ? value : []; } catch { return []; } };
+      let WORDS = [];
+      let nounCount = 0;
+      let verbCount = 0;
+      const state = { view: "learn", studyIndex: 0, revealed: false, learned: readList("deutsch-learned-today"), mode: "전체", query: "", recent: readList("deutsch-dictionary-recent"), selectedGerman: "" };
+      const normalize = (value) => value.trim().toLowerCase().replace(/\s+/g, " ");
+      const escapeHtml = (value) => String(value).replace(/[&<>"]/g, (char) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" })[char]);
+      const title = (entry) => entry.type === "명사" ? `${entry.article} ${entry.german}` : entry.german;
+      const typeChip = (entry) => `<span class="type-chip ${entry.type === "명사" ? "noun" : "verb"}">${entry.type}</span>`;
+      const wordForms = (entry) => entry.type === "명사"
+        ? `<dl class="forms-grid noun-forms"><div><dt>성</dt><dd>${entry.article}</dd></div><div><dt>복수형</dt><dd>${entry.plural}</dd></div></dl>`
+        : `<dl class="forms-grid"><div><dt>과거</dt><dd>${entry.past}</dd></div><div><dt>과거분사</dt><dd>${entry.participle}</dd></div><div><dt>접속법 2식</dt><dd>${entry.subjunctive2}</dd></div></dl>`;
+      const findWords = () => { const query = normalize(state.query); return WORDS.filter((entry) => (state.mode === "전체" || state.mode === entry.type) && (!query || entry.ko.some((meaning) => meaning.includes(query)) || entry.german.toLowerCase().includes(query))); };
+      const nav = () => `<aside class="side-rail"><button class="brand" data-view="learn" type="button" aria-label="학습 홈으로 이동"><span class="brand-mark" aria-hidden="true">W</span><span>WORTWEG</span></button><nav class="primary-nav" aria-label="주요 메뉴"><button class="${state.view === "learn" ? "active" : ""}" data-view="learn" type="button"><span class="nav-dot" aria-hidden="true"></span>학습</button><button class="${state.view === "dictionary" ? "active" : ""}" data-view="dictionary" type="button"><span class="nav-dot dictionary-dot" aria-hidden="true"></span>단어사전</button></nav><div class="rail-status"><p>오프라인 모드</p><strong>내장 단어 ${WORDS.length}개</strong><span>인터넷 연결 없이 학습할 수 있어요.</span></div></aside>`;
+      const topbar = () => `<header class="topbar"><div class="topbar-title"><span class="locale-chip">DE</span><p>독일어 단어 훈련</p></div><div class="topbar-stats"><span>오늘 ${Math.min(state.learned.length, DAILY_GOAL)}/${DAILY_GOAL}</span><span class="offline-dot">오프라인</span></div></header>`;
+      function learnView() {
+        const word = WORDS[state.studyIndex % WORDS.length];
+        const progress = Math.min(state.learned.length, DAILY_GOAL) / DAILY_GOAL * 100;
+        const answer = state.revealed
+          ? `<div class="answer-area"><div class="answer-word">${typeChip(word)}<strong>${title(word)}</strong></div>${wordForms(word)}<p class="word-note">${word.note}</p><div class="answer-actions"><button class="secondary-button" id="repeat" type="button">다시 보기</button><button class="primary-button" id="know" type="button">알겠어요</button></div></div>`
+          : `<button class="primary-button reveal-button" id="reveal" type="button">정답 보기</button>`;
+        return `<section class="learn-view" aria-label="단어 학습"><div class="learn-heading"><div><p class="eyebrow">오늘의 단어</p><h1>한 단어씩, 확실하게.</h1></div><div class="goal-progress" aria-label="오늘의 목표"><div class="progress-label"><span>오늘의 목표</span><strong>${Math.min(state.learned.length, DAILY_GOAL)}/${DAILY_GOAL}</strong></div><div class="progress-track"><span style="width:${progress}%"></span></div></div></div><section class="challenge-card"><div class="challenge-copy"><p class="prompt-label">이 뜻을 독일어로 말해보세요</p><h2>${word.ko[0]}</h2>${word.ko.length > 1 ? `<p class="alternate-meaning">${word.ko.slice(1).join(", ")}</p>` : ""}</div><img class="guide-image" src="./blue-dragon-guide.png" alt="단어 학습을 돕는 파란 용" />${answer}</section><section class="learn-footer" aria-label="학습 정보"><div><span>다음</span><strong>${WORDS[(state.studyIndex + 1) % WORDS.length].ko[0]}</strong></div><div><span>명사</span><strong>${nounCount}개</strong></div><div><span>동사</span><strong>${verbCount}개</strong></div></section></section>`;
       }
-
-      function findWords() {
-        const normalized = normalize(state.query);
-        return words.filter((entry) => {
-          const typeMatch = state.mode === "전체" || entry.type === state.mode;
-          if (!normalized) return typeMatch;
-          return typeMatch && (entry.ko.some((meaning) => meaning.includes(normalized)) || entry.german.toLowerCase().includes(normalized));
-        });
+      function dictionaryView() {
+        const results = findWords();
+        const selected = results.find((entry) => entry.german === state.selectedGerman) || results[0] || WORDS[0];
+        const rows = results.length ? results.map((entry) => `<button class="word-row ${selected.german === entry.german ? "selected" : ""}" data-word="${entry.german}" type="button">${typeChip(entry)}<span><strong>${title(entry)}</strong><small>${entry.ko.join(", ")}</small></span></button>`).join("") : `<p class="empty-state">아직 이 단어는 내장 사전에 없습니다.</p>`;
+        return `<section class="dictionary-view" aria-label="독일어 단어사전"><div class="dictionary-heading"><div><p class="eyebrow">내장 사전</p><h1>단어를 찾아보세요</h1></div><span>${WORDS.length}개 단어</span></div><form class="dictionary-search" id="search-form"><label><span class="sr-only">검색어</span><input id="search-input" placeholder="한국어 뜻 또는 독일어 단어" /></label><button class="primary-button" type="submit">검색</button></form><div class="filter-row" aria-label="품사 필터"><button class="${state.mode === "전체" ? "active" : ""}" data-mode="전체" type="button">전체 <span>${WORDS.length}</span></button><button class="${state.mode === "명사" ? "active" : ""}" data-mode="명사" type="button">명사 <span>${nounCount}</span></button><button class="${state.mode === "동사" ? "active" : ""}" data-mode="동사" type="button">동사 <span>${verbCount}</span></button></div><div class="recent-row" id="recent-row" ${state.recent.length ? "" : "hidden"}><span>최근 검색</span></div><div class="dictionary-grid"><section class="result-list" aria-label="검색 결과"><div class="result-heading"><strong>검색 결과</strong><span>${results.length}개</span></div>${rows}</section><article class="word-detail" aria-label="선택한 단어의 형태">${typeChip(selected)}<h2>${title(selected)}</h2><p class="meaning">${selected.ko.join(", ")}</p>${wordForms(selected)}<p class="word-note">${selected.note}</p></article></div></section>`;
       }
-
-      function saveQuery(query) {
-        const clean = query.trim();
-        if (!clean) return;
-        state.recent = [clean, ...state.recent.filter((item) => item !== clean)].slice(0, 6);
-        localStorage.setItem("deutsch-dictionary-recent", JSON.stringify(state.recent));
-      }
-
-      function renderModes() {
-        modeList.innerHTML = "";
-        ["전체", "명사", "동사"].forEach((mode) => {
-          const button = document.createElement("button");
-          button.className = state.mode === mode ? "active" : "";
-          button.innerHTML = `<span>${mode}</span><strong>${mode === "전체" ? words.length : words.filter((word) => word.type === mode).length}</strong>`;
-          button.addEventListener("click", () => {
-            state.mode = mode;
-            render();
-          });
-          modeList.appendChild(button);
-        });
-      }
-
-      function renderRecent() {
-        recentSection.hidden = state.recent.length === 0;
-        recentList.innerHTML = "";
-        state.recent.forEach((query) => {
-          const button = document.createElement("button");
-          button.textContent = query;
-          button.addEventListener("click", () => {
-            state.query = query;
-            input.value = query;
-            render();
-          });
-          recentList.appendChild(button);
-        });
-      }
-
-      function renderDetail(entry) {
-        const forms = entry.type === "명사"
-          ? `<dl class="forms-grid"><div><dt>성</dt><dd>${entry.article}</dd></div><div><dt>복수형</dt><dd>${entry.plural}</dd></div></dl>`
-          : `<dl class="forms-grid"><div><dt>과거</dt><dd>${entry.past}</dd></div><div><dt>과거분사</dt><dd>${entry.participle}</dd></div><div><dt>접속법 2식</dt><dd>${entry.subjunctive2}</dd></div></dl>`;
-
-        detailCard.innerHTML = `
-          <div class="detail-topline">
-            <span class="badge ${entry.type === "명사" ? "noun" : "verb"}">${entry.type}</span>
-            <div>
-              <h2>${entry.type === "명사" ? `${entry.article} ${entry.german}` : entry.german}</h2>
-              <p>${entry.ko.join(", ")}</p>
-            </div>
-          </div>
-          ${forms}
-          <div class="example-block"><span>예문</span><p>${entry.example}</p></div>
-          <p class="note">${entry.note}</p>
-        `;
-      }
-
-      function renderResults(results) {
-        resultList.innerHTML = "";
-        resultCount.textContent = `${results.length}개`;
-
-        if (results.length === 0) {
-          resultList.innerHTML = `<div class="empty-state">아직 내장 사전에 없는 항목입니다. 명사는 성과 복수형, 동사는 과거-과거분사-접속법 2식을 확인해 추가하면 됩니다.</div>`;
-          renderDetail(words[0]);
-          return;
-        }
-
-        results.forEach((entry) => {
-          const button = document.createElement("button");
-          button.className = "word-row";
-          button.innerHTML = `
-            <span class="badge ${entry.type === "명사" ? "noun" : "verb"}">${entry.type}</span>
-            <strong>${entry.type === "명사" ? `${entry.article} ${entry.german}` : entry.german}</strong>
-            <small>${entry.ko.join(", ")}</small>
-          `;
-          button.addEventListener("click", () => {
-            state.query = entry.ko[0];
-            input.value = state.query;
-            saveQuery(state.query);
-            render();
-          });
-          resultList.appendChild(button);
-        });
-
-        renderDetail(results[0]);
-      }
-
+      function saveQuery() { const clean = state.query.trim(); if (!clean) return; state.recent = [clean, ...state.recent.filter((item) => item !== clean)].slice(0, 6); localStorage.setItem("deutsch-dictionary-recent", JSON.stringify(state.recent)); }
+      function moveNext(markKnown) { const word = WORDS[state.studyIndex % WORDS.length]; if (markKnown && !state.learned.includes(word.german)) { state.learned.push(word.german); localStorage.setItem("deutsch-learned-today", JSON.stringify(state.learned)); } state.studyIndex += 1; state.revealed = false; render(); }
       function render() {
-        renderModes();
-        renderRecent();
-        renderResults(findWords());
+        app.innerHTML = `<main class="app-shell">${nav()}<section class="workspace">${topbar()}${state.view === "learn" ? learnView() : dictionaryView()}</section></main>`;
+        app.querySelectorAll("[data-view]").forEach((button) => button.addEventListener("click", () => { state.view = button.dataset.view; render(); }));
+        if (state.view === "learn") { const reveal = document.getElementById("reveal"); const repeat = document.getElementById("repeat"); const know = document.getElementById("know"); if (reveal) reveal.addEventListener("click", () => { state.revealed = true; render(); }); if (repeat) repeat.addEventListener("click", () => moveNext(false)); if (know) know.addEventListener("click", () => moveNext(true)); return; }
+        const input = document.getElementById("search-input"); input.value = state.query; input.addEventListener("input", (event) => { state.query = event.target.value; render(); }); document.getElementById("search-form").addEventListener("submit", (event) => { event.preventDefault(); saveQuery(); render(); });
+        app.querySelectorAll("[data-mode]").forEach((button) => button.addEventListener("click", () => { state.mode = button.dataset.mode; render(); })); app.querySelectorAll("[data-word]").forEach((button) => button.addEventListener("click", () => { state.selectedGerman = button.dataset.word; render(); }));
+        const recentRow = document.getElementById("recent-row"); state.recent.forEach((query) => { const button = document.createElement("button"); button.type = "button"; button.textContent = query; button.addEventListener("click", () => { state.query = query; render(); }); recentRow.appendChild(button); });
       }
-
-      input.addEventListener("input", (event) => {
-        state.query = event.target.value;
-        render();
-      });
-      input.addEventListener("keydown", (event) => {
-        if (event.key === "Enter") {
-          saveQuery(state.query);
-          renderRecent();
-        }
-      });
-      input.addEventListener("blur", () => {
-        saveQuery(state.query);
-        renderRecent();
-      });
-
-      render();
-
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("./sw.js").catch(() => undefined);
-      }
+      fetch("./dictionary-data.json")
+        .then((response) => {
+          if (!response.ok) throw new Error("단어 데이터를 불러오지 못했습니다.");
+          return response.json();
+        })
+        .then((data) => {
+          WORDS = data;
+          nounCount = WORDS.filter((word) => word.type === "명사").length;
+          verbCount = WORDS.filter((word) => word.type === "동사").length;
+          state.selectedGerman = WORDS[0].german;
+          render();
+        })
+        .catch(() => { app.textContent = "단어 데이터를 불러오지 못했습니다."; });
+      if ("serviceWorker" in navigator) navigator.serviceWorker.register("./sw.js").catch(() => undefined);
     </script>
   </body>
 </html>
