@@ -395,13 +395,37 @@ export default function Home() {
           )
         ) : (
           <section className="dictionary-view" aria-label="독일어 단어사전">
-            <div className="dictionary-heading"><div><p className="eyebrow">내장 사전</p><h1>단어를 찾아보세요</h1></div><span>{WORDS.length}개 단어</span></div>
-            <form className="dictionary-search" onSubmit={(event) => { event.preventDefault(); runSearch(wordQuery); }}><label><span className="sr-only">검색어</span><input value={wordQuery} onChange={(event) => setWordQuery(event.target.value)} placeholder="한국어 뜻 또는 독일어 단어" /></label><button className="primary-button" type="submit">검색</button></form>
-            <div className="filter-row" aria-label="품사 필터">{(["전체", "명사", "동사"] as const).map((mode) => <button className={wordMode === mode ? "active" : ""} key={mode} onClick={() => setWordMode(mode)} type="button">{mode} <span>{mode === "전체" ? WORDS.length : mode === "명사" ? nounCount : verbCount}</span></button>)}</div>
-            {recentQueries.length > 0 && <div className="recent-row" aria-label="최근 검색"><span>최근 검색</span>{recentQueries.map((query) => <button key={query} onClick={() => setWordQuery(query)} type="button">{query}</button>)}</div>}
-            <div className="dictionary-grid">
-              <section className="result-list" aria-label="검색 결과"><div className="result-heading"><strong>검색 결과</strong><span>{wordResults.length}개</span></div>{wordResults.length > 0 ? wordResults.map((entry) => <button className={selectedWord.german === entry.german ? "word-row selected" : "word-row"} key={`${entry.type}-${entry.german}`} onClick={() => setSelectedGerman(entry.german)} type="button"><span className={`type-chip ${entry.type === "명사" ? "noun" : "verb"}`}>{entry.type}</span><span><strong>{entry.type === "명사" ? `${entry.article} ${entry.german}` : entry.german}</strong><small>{entry.ko.join(", ")}</small></span></button>) : <p className="empty-state">아직 이 단어는 내장 사전에 없습니다.</p>}</section>
-              <article className="word-detail" aria-label="선택한 단어의 형태"><span className={`type-chip ${selectedWord.type === "명사" ? "noun" : "verb"}`}>{selectedWord.type}</span><h2>{selectedWord.type === "명사" ? `${selectedWord.article} ${selectedWord.german}` : selectedWord.german}</h2><p className="meaning">{selectedWord.ko.join(", ")}</p><WordForms entry={selectedWord} /><p className="word-note">{selectedWord.note}</p></article>
+            <div className="dictionary-heading">
+              <div>
+                <p className="eyebrow">OFFLINE LEXICON</p>
+                <h1>독일어 단어사전</h1>
+                <p className="dictionary-subtitle">뜻으로 찾고, 꼭 필요한 형태를 바로 확인하세요.</p>
+              </div>
+              <span className="dictionary-total">내장 {WORDS.length}개</span>
+            </div>
+            <div className="dictionary-toolbar">
+              <form className="dictionary-search" onSubmit={(event) => { event.preventDefault(); runSearch(wordQuery); }} role="search">
+                <label><span className="sr-only">검색어</span><input value={wordQuery} onChange={(event) => setWordQuery(event.target.value)} placeholder="한국어 뜻 또는 독일어 단어" /></label>
+                <button className="primary-button" type="submit">검색</button>
+              </form>
+              <div className="dictionary-filters" aria-label="품사 필터">
+                {(["전체", "명사", "동사"] as const).map((mode) => <button className={wordMode === mode ? "active" : ""} key={mode} onClick={() => setWordMode(mode)} type="button">{mode} <span>{mode === "전체" ? WORDS.length : mode === "명사" ? nounCount : verbCount}</span></button>)}
+              </div>
+            </div>
+            {recentQueries.length > 0 && <div className="recent-row dictionary-recent" aria-label="최근 검색"><span>최근 검색</span>{recentQueries.map((query) => <button key={query} onClick={() => setWordQuery(query)} type="button">{query}</button>)}</div>}
+            <div className="dictionary-workbench">
+              <section className="dictionary-results" aria-label="검색 결과">
+                <div className="result-heading"><strong>검색 결과</strong><span>{wordResults.length}개</span></div>
+                {wordResults.length > 0 ? <div className="word-list">{wordResults.map((entry) => <button className={selectedWord.german === entry.german ? "word-row selected" : "word-row"} key={`${entry.type}-${entry.german}`} onClick={() => setSelectedGerman(entry.german)} type="button"><span className={`type-chip ${entry.type === "명사" ? "noun" : "verb"}`}>{entry.type}</span><span className="word-row-main"><strong>{entry.type === "명사" ? `${entry.article} ${entry.german}` : entry.german}</strong><small>{entry.ko.join(", ")}</small></span></button>)}</div> : <p className="empty-state">아직 이 단어는 내장 사전에 없습니다.</p>}
+              </section>
+              <article className="word-sheet" aria-label="선택한 단어의 형태">
+                <div className="word-sheet-title"><span className={`type-chip ${selectedWord.type === "명사" ? "noun" : "verb"}`}>{selectedWord.type}</span><p>{selectedWord.type === "명사" ? "명사 / 성과 복수형" : "동사 / 주요 변화형"}</p></div>
+                <h2>{selectedWord.type === "명사" ? `${selectedWord.article} ${selectedWord.german}` : selectedWord.german}</h2>
+                <p className="meaning">{selectedWord.ko.join(", ")}</p>
+                <div className="sheet-divider" />
+                <section className="inflection-panel" aria-label="단어 변화형"><p className="inflection-label">형태</p><WordForms entry={selectedWord} /></section>
+                <p className="word-note"><span>학습 메모</span>{selectedWord.note}</p>
+              </article>
             </div>
           </section>
         )}

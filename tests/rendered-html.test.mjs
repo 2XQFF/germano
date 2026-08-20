@@ -58,6 +58,8 @@ test("keeps dictionary data and offline support inside the app", async () => {
   assert.match(data, /"participle": "hat gesehen"/);
   assert.match(data, /"subjunctive2": "ginge"/);
   assert.match(page, /deutsch-dictionary-recent/);
+  assert.match(page, /dictionary-workbench/);
+  assert.match(page, /word-sheet/);
   assert.match(page, /EXERCISE_LABELS/);
   assert.match(page, /독일어 작문/);
   assert.match(page, /한국어 번역/);
@@ -82,6 +84,8 @@ test("keeps dictionary data and offline support inside the app", async () => {
   assert.doesNotMatch(staticPage, /blue-dragon-guide\.png/);
   assert.equal([...staticPage.matchAll(/\bid: "/g)].length, 24);
   assert.match(staticPage, /dictionary-data\.json/);
+  assert.match(staticPage, /dictionary-workbench/);
+  assert.match(staticPage, /word-sheet/);
   assert.doesNotMatch(staticPage, /example-block|예문/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   assert.doesNotThrow(() => JSON.parse(data));

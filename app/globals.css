@@ -152,33 +152,46 @@ dd { margin: 7px 0 0; font-size: 1rem; font-weight: 900; overflow-wrap: anywhere
 .back-button { min-height: 38px; padding: 0 13px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--muted); font-size: 0.82rem; font-weight: 900; }
 .back-button:hover { border-color: #9bdc8e; color: var(--green-dark); }
 
-.dictionary-heading > span { color: var(--muted); font-size: 0.88rem; font-weight: 800; }
-.dictionary-search { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; margin-bottom: 20px; }
-input { width: 100%; min-height: 50px; padding: 0 15px; border: 2px solid #cbdcdf; border-radius: 8px; background: var(--surface); color: var(--ink); font-weight: 700; outline: 0; }
+.dictionary-heading { align-items: start; margin-bottom: 22px; }
+.dictionary-heading h1 { font-size: 2.18rem; }
+.dictionary-subtitle { margin: 9px 0 0; color: var(--muted); font-weight: 700; line-height: 1.5; }
+.dictionary-total { flex: 0 0 auto; padding: 8px 10px; border: 1px solid #c8ddd5; border-radius: 8px; background: #f5fbf7; color: var(--green-dark); font-size: 0.78rem; font-weight: 900; }
+.dictionary-toolbar { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 0 0 17px; border-bottom: 1px solid var(--line); }
+.dictionary-search { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; margin: 0; }
+input { width: 100%; min-height: 54px; padding: 0 16px; border: 2px solid #cbdcdf; border-radius: 8px; background: var(--surface); color: var(--ink); font-weight: 700; outline: 0; }
 input:focus { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-pale); }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
-.filter-row, .recent-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.filter-row { margin-bottom: 14px; }
-.filter-row button, .recent-row button { min-height: 34px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface); color: var(--muted); font-size: 0.83rem; font-weight: 800; }
-.filter-row button:hover, .recent-row button:hover { border-color: #a5d69a; color: var(--green-dark); }
-.filter-row button.active { border-color: var(--green); background: var(--green-pale); color: var(--green-dark); }
-.filter-row button span { margin-left: 4px; }
-.recent-row { margin: 0 0 26px; }
-.recent-row > span { margin-right: 4px; color: var(--muted); font-size: 0.8rem; font-weight: 900; }
-.dictionary-grid { display: grid; grid-template-columns: minmax(280px, 0.88fr) minmax(320px, 1.12fr); gap: 34px; align-items: start; }
-.result-list { display: grid; gap: 9px; }
-.result-heading { display: flex; align-items: center; justify-content: space-between; padding-bottom: 6px; color: var(--muted); font-size: 0.88rem; }
+.dictionary-filters { display: inline-flex; align-items: stretch; gap: 3px; padding: 3px; border: 1px solid var(--line); border-radius: 8px; background: #f5f8f7; }
+.dictionary-filters button { min-height: 38px; padding: 0 10px; border: 1px solid transparent; border-radius: 6px; background: transparent; color: var(--muted); font-size: 0.8rem; font-weight: 900; }
+.dictionary-filters button:hover { color: var(--green-dark); }
+.dictionary-filters button.active { border-color: #b8e4b0; background: var(--surface); color: var(--green-dark); box-shadow: 0 1px 0 #d8e6e0; }
+.dictionary-filters button span { margin-left: 3px; color: inherit; font-size: 0.72rem; }
+.recent-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 15px 0 17px; }
+.recent-row > span { margin-right: 3px; color: var(--muted); font-size: 0.78rem; font-weight: 900; }
+.recent-row button { min-height: 30px; padding: 0 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--muted); font-size: 0.78rem; font-weight: 800; }
+.recent-row button:hover { border-color: #a5d69a; color: var(--green-dark); }
+.dictionary-workbench { display: grid; grid-template-columns: minmax(280px, 0.82fr) minmax(0, 1.18fr); min-height: 520px; overflow: hidden; border: 1px solid #cbded7; border-radius: 8px; background: var(--surface); box-shadow: 0 2px 0 #dce9e3; }
+.dictionary-results { min-width: 0; border-right: 1px solid #d7e4df; background: #fbfdfc; }
+.result-heading { display: flex; align-items: center; justify-content: space-between; min-height: 58px; padding: 0 20px; border-bottom: 1px solid #d7e4df; color: var(--muted); font-size: 0.84rem; }
 .result-heading strong { color: var(--ink); }
-.word-row { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; width: 100%; min-height: 64px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink); text-align: left; }
-.word-row:hover { border-color: #a5d69a; background: #fbfffa; }
-.word-row.selected { border-color: var(--green); box-shadow: inset 4px 0 0 var(--green); }
-.word-row > span:last-child { display: grid; gap: 4px; min-width: 0; }
+.word-list { max-height: 610px; overflow-y: auto; }
+.word-row { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 12px; width: 100%; min-height: 68px; padding: 11px 20px; border: 0; border-bottom: 1px solid #e1ebe7; background: transparent; color: var(--ink); text-align: left; }
+.word-row:hover { background: #f3faf4; }
+.word-row.selected { background: #ecf9e9; box-shadow: inset 4px 0 0 var(--green); }
+.word-row-main { display: grid; gap: 4px; min-width: 0; }
 .word-row strong { overflow-wrap: anywhere; }
 .word-row small { color: var(--muted); font-size: 0.78rem; font-weight: 700; overflow-wrap: anywhere; }
-.word-detail { padding: 30px; border: 2px solid #cee2d7; border-radius: 8px; background: var(--surface); box-shadow: var(--shadow); }
-.word-detail h2 { margin: 18px 0 6px; font-size: 2.3rem; line-height: 1; letter-spacing: 0; overflow-wrap: anywhere; }
-.meaning { margin-bottom: 26px; color: var(--muted); font-weight: 800; }
-.empty-state { margin: 0; padding: 24px 0; color: var(--muted); line-height: 1.6; }
+.word-sheet { min-width: 0; padding: 36px 38px; background: var(--surface); }
+.word-sheet-title { display: flex; align-items: center; gap: 9px; }
+.word-sheet-title p, .inflection-label { margin: 0; color: var(--muted); font-size: 0.78rem; font-weight: 900; }
+.word-sheet h2 { margin: 23px 0 7px; font-size: clamp(2.2rem, 4vw, 3.05rem); line-height: 1; letter-spacing: 0; overflow-wrap: anywhere; }
+.meaning { margin-bottom: 0; color: var(--muted); font-weight: 800; }
+.sheet-divider { height: 1px; margin: 28px 0 22px; background: var(--line); }
+.inflection-panel { display: grid; gap: 12px; }
+.word-sheet .forms-grid { margin: 0; }
+.word-note { display: grid; gap: 6px; margin: 25px 0 0; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; line-height: 1.55; }
+.word-note span { color: var(--ink); font-size: 0.73rem; font-weight: 900; }
+.empty-state { margin: 0; padding: 24px 20px; color: var(--muted); line-height: 1.6; }
 
 @media (max-width: 860px) {
   .app-shell { grid-template-columns: 1fr; }
@@ -208,9 +221,15 @@ input:focus { border-color: var(--green); box-shadow: 0 0 0 3px var(--green-pale
   .answer-actions button { padding: 0 10px; }
   .learn-footer { grid-template-columns: 1fr; }
   .learn-footer div + div { padding-left: 0; border-top: 1px solid var(--line); border-left: 0; }
-  .dictionary-search, .dictionary-grid { grid-template-columns: 1fr; }
+  .dictionary-toolbar, .dictionary-search, .dictionary-workbench { grid-template-columns: 1fr; }
+  .dictionary-toolbar { align-items: stretch; }
+  .dictionary-filters { width: 100%; }
+  .dictionary-filters button { flex: 1; }
   .dictionary-search .primary-button { width: 100%; }
-  .word-detail { padding: 23px; }
+  .dictionary-workbench { min-height: 0; }
+  .dictionary-results { border-right: 0; border-bottom: 1px solid #d7e4df; }
+  .word-list { max-height: 310px; }
+  .word-sheet { padding: 27px 22px; }
   .journey-intro { grid-template-columns: 1fr; gap: 18px; }
   .topic-path { margin-top: 26px; }
   .topic-path::before { top: 48px; bottom: 48px; }

@@ -93,6 +93,59 @@
         .lesson-orb { width:66px; height:66px; font-size:.82rem; }
       }
     </style>
+    <style>
+      .dictionary-heading { align-items:start; margin-bottom:22px; }
+      .dictionary-heading h1 { font-size:2.18rem; }
+      .dictionary-subtitle { margin:9px 0 0; color:var(--muted); font-weight:700; line-height:1.5; }
+      .dictionary-total { flex:0 0 auto; padding:8px 10px; border:1px solid #c8ddd5; border-radius:8px; background:#f5fbf7; color:var(--green-dark); font-size:.78rem; font-weight:900; }
+      .dictionary-toolbar { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:14px; align-items:center; padding:0 0 17px; border-bottom:1px solid var(--line); }
+      .dictionary-search { display:grid; grid-template-columns:minmax(0,1fr) auto; gap:10px; margin:0; }
+      .dictionary-search input { min-height:54px; padding:0 16px; }
+      .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+      .dictionary-filters { display:inline-flex; align-items:stretch; gap:3px; padding:3px; border:1px solid var(--line); border-radius:8px; background:#f5f8f7; }
+      .dictionary-filters button { min-height:38px; padding:0 10px; border:1px solid transparent; border-radius:6px; background:transparent; color:var(--muted); font-size:.8rem; font-weight:900; }
+      .dictionary-filters button:hover { color:var(--green-dark); }
+      .dictionary-filters button.active { border-color:#b8e4b0; background:var(--surface); color:var(--green-dark); box-shadow:0 1px 0 #d8e6e0; }
+      .dictionary-filters button span { margin-left:3px; color:inherit; font-size:.72rem; }
+      .recent-row.dictionary-recent { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:15px 0 17px; }
+      .dictionary-recent > span { margin-right:3px; color:var(--muted); font-size:.78rem; font-weight:900; }
+      .dictionary-recent button { min-height:30px; padding:0 10px; border:1px solid var(--line); border-radius:6px; background:var(--surface); color:var(--muted); font-size:.78rem; font-weight:800; }
+      .dictionary-recent button:hover { border-color:#a5d69a; color:var(--green-dark); }
+      .dictionary-workbench { display:grid; grid-template-columns:minmax(280px,.82fr) minmax(0,1.18fr); min-height:520px; overflow:hidden; border:1px solid #cbded7; border-radius:8px; background:var(--surface); box-shadow:0 2px 0 #dce9e3; }
+      .dictionary-results { min-width:0; border-right:1px solid #d7e4df; background:#fbfdfc; }
+      .result-heading { display:flex; align-items:center; justify-content:space-between; min-height:58px; padding:0 20px; border-bottom:1px solid #d7e4df; color:var(--muted); font-size:.84rem; }
+      .result-heading strong { color:var(--ink); }
+      .word-list { max-height:610px; overflow-y:auto; }
+      .word-row { display:grid; grid-template-columns:auto minmax(0,1fr); align-items:center; gap:12px; width:100%; min-height:68px; padding:11px 20px; border:0; border-bottom:1px solid #e1ebe7; border-radius:0; background:transparent; color:var(--ink); text-align:left; }
+      .word-row:hover { border-color:#e1ebe7; background:#f3faf4; }
+      .word-row.selected { border-color:#e1ebe7; background:#ecf9e9; box-shadow:inset 4px 0 0 var(--green); }
+      .word-row-main { display:grid; gap:4px; min-width:0; }
+      .word-row small { color:var(--muted); font-size:.78rem; font-weight:700; overflow-wrap:anywhere; }
+      .word-sheet { min-width:0; padding:36px 38px; background:var(--surface); }
+      .word-sheet-title { display:flex; align-items:center; gap:9px; }
+      .word-sheet-title p, .inflection-label { margin:0; color:var(--muted); font-size:.78rem; font-weight:900; }
+      .word-sheet h2 { margin:23px 0 7px; font-size:clamp(2.2rem,4vw,3.05rem); line-height:1; overflow-wrap:anywhere; }
+      .word-sheet .meaning { margin-bottom:0; }
+      .sheet-divider { height:1px; margin:28px 0 22px; background:var(--line); }
+      .inflection-panel { display:grid; gap:12px; }
+      .word-sheet .forms-grid { margin:0; }
+      .word-sheet .word-note { display:grid; gap:6px; margin:25px 0 0; padding-top:18px; border-top:1px solid var(--line); color:var(--muted); font-size:.88rem; line-height:1.55; }
+      .word-sheet .word-note span { color:var(--ink); font-size:.73rem; font-weight:900; }
+      .empty-state { margin:0; padding:24px 20px; }
+      @media (max-width:640px) {
+        .dictionary-heading { display:grid; align-items:start; gap:18px; }
+        .dictionary-heading h1 { font-size:1.85rem; }
+        .dictionary-toolbar, .dictionary-search, .dictionary-workbench { grid-template-columns:1fr; }
+        .dictionary-toolbar { align-items:stretch; }
+        .dictionary-filters { width:100%; }
+        .dictionary-filters button { flex:1; }
+        .dictionary-search .primary-button { width:100%; }
+        .dictionary-workbench { min-height:0; }
+        .dictionary-results { border-right:0; border-bottom:1px solid #d7e4df; }
+        .word-list { max-height:310px; }
+        .word-sheet { padding:27px 22px; }
+      }
+    </style>
   </head>
   <body>
     <div id="app"></div>
@@ -345,11 +398,12 @@
           ? results
               .map(
                 (entry) =>
-                  `<button class="word-row ${selected.german === entry.german ? "selected" : ""}" data-word="${entry.german}" type="button">${typeChip(entry)}<span><strong>${title(entry)}</strong><small>${entry.ko.join(", ")}</small></span></button>`,
+                  `<button class="word-row ${selected.german === entry.german ? "selected" : ""}" data-word="${entry.german}" type="button">${typeChip(entry)}<span class="word-row-main"><strong>${title(entry)}</strong><small>${entry.ko.join(", ")}</small></span></button>`,
               )
               .join("")
           : `<p class="empty-state">아직 이 단어는 내장 사전에 없습니다.</p>`;
-        return `<section class="dictionary-view" aria-label="독일어 단어사전"><div class="dictionary-heading"><div><p class="eyebrow">내장 사전</p><h1>단어를 찾아보세요</h1></div><span>${WORDS.length}개 단어</span></div><form class="dictionary-search" id="search-form"><label><span class="sr-only">검색어</span><input id="search-input" placeholder="한국어 뜻 또는 독일어 단어" /></label><button class="primary-button" type="submit">검색</button></form><div class="filter-row" aria-label="품사 필터"><button class="${state.mode === "전체" ? "active" : ""}" data-mode="전체" type="button">전체 <span>${WORDS.length}</span></button><button class="${state.mode === "명사" ? "active" : ""}" data-mode="명사" type="button">명사 <span>${nounCount}</span></button><button class="${state.mode === "동사" ? "active" : ""}" data-mode="동사" type="button">동사 <span>${verbCount}</span></button></div><div class="recent-row" id="recent-row" ${state.recent.length ? "" : "hidden"}><span>최근 검색</span></div><div class="dictionary-grid"><section class="result-list" aria-label="검색 결과"><div class="result-heading"><strong>검색 결과</strong><span>${results.length}개</span></div>${rows}</section><article class="word-detail" aria-label="선택한 단어의 형태">${typeChip(selected)}<h2>${title(selected)}</h2><p class="meaning">${selected.ko.join(", ")}</p>${wordForms(selected)}<p class="word-note">${selected.note}</p></article></div></section>`;
+        const wordType = selected.type === "명사" ? "명사 / 성과 복수형" : "동사 / 주요 변화형";
+        return `<section class="dictionary-view" aria-label="독일어 단어사전"><div class="dictionary-heading"><div><p class="eyebrow">OFFLINE LEXICON</p><h1>독일어 단어사전</h1><p class="dictionary-subtitle">뜻으로 찾고, 꼭 필요한 형태를 바로 확인하세요.</p></div><span class="dictionary-total">내장 ${WORDS.length}개</span></div><div class="dictionary-toolbar"><form class="dictionary-search" id="search-form" role="search"><label><span class="sr-only">검색어</span><input id="search-input" placeholder="한국어 뜻 또는 독일어 단어" /></label><button class="primary-button" type="submit">검색</button></form><div class="dictionary-filters" aria-label="품사 필터"><button class="${state.mode === "전체" ? "active" : ""}" data-mode="전체" type="button">전체 <span>${WORDS.length}</span></button><button class="${state.mode === "명사" ? "active" : ""}" data-mode="명사" type="button">명사 <span>${nounCount}</span></button><button class="${state.mode === "동사" ? "active" : ""}" data-mode="동사" type="button">동사 <span>${verbCount}</span></button></div></div><div class="recent-row dictionary-recent" id="recent-row" ${state.recent.length ? "" : "hidden"}><span>최근 검색</span></div><div class="dictionary-workbench"><section class="dictionary-results" aria-label="검색 결과"><div class="result-heading"><strong>검색 결과</strong><span>${results.length}개</span></div>${results.length ? `<div class="word-list">${rows}</div>` : rows}</section><article class="word-sheet" aria-label="선택한 단어의 형태"><div class="word-sheet-title">${typeChip(selected)}<p>${wordType}</p></div><h2>${title(selected)}</h2><p class="meaning">${selected.ko.join(", ")}</p><div class="sheet-divider"></div><section class="inflection-panel" aria-label="단어 변화형"><p class="inflection-label">형태</p>${wordForms(selected)}</section><p class="word-note"><span>학습 메모</span>${selected.note}</p></article></div></section>`;
       }
       function saveQuery() {
         const clean = state.query.trim();
