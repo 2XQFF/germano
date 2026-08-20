@@ -53,25 +53,57 @@ const WORDS = WORD_DATA as WordEntry[];
 const DAILY_GOAL = 8;
 
 const LESSONS: Lesson[] = [
-  { id: "daily", title: "일상어", subtitle: "시간과 가장 가까운 단어", words: ["Buch", "Schule", "Freund", "Familie", "Zeit", "Tag", "Woche", "Name"] },
-  { id: "food", title: "음식", subtitle: "먹고 마시고 주문하기", words: ["Wasser", "Brot", "Apfel", "Essen", "Kaffee", "Tee", "essen", "trinken", "kochen", "bestellen", "bezahlen"] },
-  { id: "nature", title: "자연물", subtitle: "날씨와 풍경 말하기", words: ["Wetter", "Sonne", "Regen", "Meer", "Berg", "Wald", "Nacht", "laufen", "sehen"] },
-  { id: "travel", title: "이동과 여행", subtitle: "도시에서 공항까지", words: ["Stadt", "Bahnhof", "Zug", "Auto", "Straße", "Flughafen", "gehen", "kommen", "fahren", "ankommen", "aussteigen", "einsteigen", "fliegen", "reisen"] },
-  { id: "people", title: "사람과 대화", subtitle: "소개하고 묻고 답하기", words: ["Lehrer", "Frau", "Mann", "Mutter", "Vater", "Sprache", "Frage", "Antwort", "sprechen", "fragen", "antworten", "heißen"] },
-  { id: "home", title: "집과 공간", subtitle: "물건과 위치 설명하기", words: ["Haus", "Zimmer", "Tisch", "Fenster", "Tür", "Kopf", "Herz", "öffnen", "schließen", "sitzen", "stehen", "liegen"] },
-  { id: "shopping", title: "쇼핑과 취미", subtitle: "원하고 고르고 사기", words: ["Markt", "Supermarkt", "Geld", "Karte", "Kleidung", "Hemd", "Jacke", "Schuh", "Hobby", "kaufen", "verkaufen", "wählen", "lieben", "mögen"] },
-  { id: "verbs", title: "핵심 동사", subtitle: "문장을 만드는 필수 변화", words: ["sein", "haben", "werden", "können", "müssen", "dürfen", "wollen", "sollen", "lesen", "schreiben", "finden", "nehmen", "geben", "vergessen"] },
+  { id: "greeting", title: "첫 인사", subtitle: "이름을 말하고 사람을 소개해요", words: ["Mensch", "Frau", "Mann", "Name", "heißen", "sein", "sprechen"] },
+  { id: "family", title: "가족", subtitle: "가까운 사람을 소개해요", words: ["Familie", "Mutter", "Vater", "Bruder", "Schwester", "Kind", "haben", "lieben"] },
+  { id: "time", title: "시간과 하루", subtitle: "하루와 약속을 말해요", words: ["Morgen", "Abend", "Tag", "Nacht", "Woche", "Monat", "Uhr", "beginnen"] },
+  { id: "school", title: "학교", subtitle: "배우고 읽고 써요", words: ["Schule", "Buch", "Lehrer", "Sprache", "Satz", "Prüfung", "lesen", "schreiben", "lernen", "verstehen"] },
+  { id: "home", title: "집과 방", subtitle: "사물과 위치를 말해요", words: ["Haus", "Zimmer", "Tisch", "Fenster", "Tür", "wohnen", "öffnen", "schließen", "sitzen", "liegen"] },
+  { id: "routine", title: "일상 동작", subtitle: "매일 하는 일을 말해요", words: ["Zeit", "Arbeit", "Weg", "gehen", "kommen", "machen", "arbeiten", "schlafen", "spielen", "hören"] },
+  { id: "food-basics", title: "음식 기초", subtitle: "먹고 마시는 것을 말해요", words: ["Wasser", "Brot", "Apfel", "Essen", "essen", "trinken", "brauchen"] },
+  { id: "cafe", title: "카페와 식당", subtitle: "주문하고 계산해요", words: ["Kaffee", "Tee", "Restaurant", "Essen", "bestellen", "bezahlen", "kochen", "warten"] },
+  { id: "market", title: "시장", subtitle: "사고 고르고 찾아요", words: ["Markt", "Supermarkt", "Geld", "Preis", "Karte", "kaufen", "verkaufen", "wählen", "suchen"] },
+  { id: "clothes", title: "옷과 취향", subtitle: "물건의 취향을 말해요", words: ["Kleidung", "Hemd", "Jacke", "Schuh", "Bild", "mögen", "lieben", "brauchen"] },
+  { id: "weather", title: "날씨", subtitle: "오늘의 날씨를 묘사해요", words: ["Wetter", "Sonne", "Regen", "Tag", "Nacht", "hoffen", "sehen"] },
+  { id: "nature", title: "자연", subtitle: "풍경과 이동을 말해요", words: ["Meer", "Berg", "Wald", "Park", "Weg", "laufen", "reisen", "sehen"] },
+  { id: "city", title: "도시", subtitle: "도시의 장소를 찾아요", words: ["Stadt", "Platz", "Straße", "Brücke", "Park", "Auto", "gehen", "finden", "zeigen"] },
+  { id: "transport", title: "교통", subtitle: "기차와 이동을 익혀요", words: ["Bahnhof", "Zug", "Auto", "Weg", "fahren", "warten", "aussteigen", "einsteigen"] },
+  { id: "travel", title: "여행", subtitle: "호텔부터 공항까지", words: ["Hotel", "Flughafen", "Land", "Karte", "reisen", "fliegen", "ankommen", "besuchen"] },
+  { id: "conversation", title: "대화", subtitle: "질문하고 답해요", words: ["Frage", "Antwort", "Sprache", "Nachricht", "Lehrer", "sprechen", "fragen", "antworten", "erklären"] },
+  { id: "digital", title: "디지털 생활", subtitle: "메시지와 정보를 다뤄요", words: ["Computer", "Handy", "Nachricht", "Bild", "schreiben", "zeigen", "finden", "erhalten"] },
+  { id: "free-time", title: "여가", subtitle: "취미와 약속을 말해요", words: ["Hobby", "Film", "Freund", "Wochenende", "spielen", "hören", "mögen", "treffen"] },
+  { id: "work", title: "공부와 일", subtitle: "목표와 의무를 말해요", words: ["Beruf", "Arbeit", "Prüfung", "Computer", "studieren", "arbeiten", "lernen", "wollen", "müssen"] },
+  { id: "people", title: "사람", subtitle: "사람의 관계를 묘사해요", words: ["Junge", "Mädchen", "Mensch", "Freund", "Kopf", "Herz", "treffen", "kennen", "helfen"] },
+  { id: "core-a", title: "핵심 동사 I", subtitle: "문장의 뼈대를 만들어요", words: ["sein", "haben", "werden", "können", "müssen", "wollen", "sollen"] },
+  { id: "core-b", title: "핵심 동사 II", subtitle: "변화와 결과를 말해요", words: ["geben", "nehmen", "bringen", "finden", "bleiben", "verlieren", "gewinnen"] },
+  { id: "core-c", title: "핵심 동사 III", subtitle: "생각과 기억을 표현해요", words: ["wissen", "denken", "glauben", "hoffen", "vergessen", "erhalten", "verstehen"] },
+  { id: "review", title: "종합 복습", subtitle: "배운 단어를 연결해요", words: ["Buch", "Freund", "Wasser", "Stadt", "Hotel", "Frage", "gehen", "essen", "reisen", "sprechen", "können"] },
 ];
 
 const LESSON_SENTENCES: Record<string, SentencePrompt> = {
-  daily: { ko: "나는 학교에 간다.", de: "Ich gehe zur Schule." },
-  food: { ko: "우리는 빵을 주문한다.", de: "Wir bestellen Brot." },
-  nature: { ko: "오늘 날씨가 좋다.", de: "Das Wetter ist heute gut." },
-  travel: { ko: "기차가 역에 도착한다.", de: "Der Zug kommt am Bahnhof an." },
-  people: { ko: "선생님이 질문에 답한다.", de: "Der Lehrer antwortet auf die Frage." },
+  greeting: { ko: "나는 안나이다.", de: "Ich heiße Anna." },
+  family: { ko: "나는 가족이 있다.", de: "Ich habe eine Familie." },
+  time: { ko: "오늘은 좋은 날이다.", de: "Heute ist ein guter Tag." },
+  school: { ko: "나는 독일어를 배운다.", de: "Ich lerne Deutsch." },
   home: { ko: "나는 창문을 연다.", de: "Ich öffne das Fenster." },
-  shopping: { ko: "나는 카드로 지불한다.", de: "Ich bezahle mit Karte." },
-  verbs: { ko: "나는 독일어를 배울 수 있다.", de: "Ich kann Deutsch lernen." },
+  routine: { ko: "나는 집에 간다.", de: "Ich gehe nach Hause." },
+  "food-basics": { ko: "나는 빵을 먹는다.", de: "Ich esse Brot." },
+  cafe: { ko: "우리는 차를 주문한다.", de: "Wir bestellen Tee." },
+  market: { ko: "나는 카드로 지불한다.", de: "Ich bezahle mit Karte." },
+  clothes: { ko: "나는 재킷을 좋아한다.", de: "Ich mag die Jacke." },
+  weather: { ko: "오늘 날씨가 좋다.", de: "Das Wetter ist heute gut." },
+  nature: { ko: "우리는 바다를 본다.", de: "Wir sehen das Meer." },
+  city: { ko: "공원이 도시에 있다.", de: "Der Park ist in der Stadt." },
+  transport: { ko: "기차가 역에 온다.", de: "Der Zug kommt zum Bahnhof." },
+  travel: { ko: "나는 비행기로 여행한다.", de: "Ich reise mit dem Flugzeug." },
+  conversation: { ko: "선생님이 질문에 답한다.", de: "Der Lehrer antwortet auf die Frage." },
+  digital: { ko: "나는 메시지를 쓴다.", de: "Ich schreibe eine Nachricht." },
+  "free-time": { ko: "나는 영화를 좋아한다.", de: "Ich mag den Film." },
+  work: { ko: "나는 독일어를 공부한다.", de: "Ich studiere Deutsch." },
+  people: { ko: "나는 친구를 만난다.", de: "Ich treffe einen Freund." },
+  "core-a": { ko: "나는 독일어를 배울 수 있다.", de: "Ich kann Deutsch lernen." },
+  "core-b": { ko: "나는 책을 가져온다.", de: "Ich bringe das Buch." },
+  "core-c": { ko: "나는 답을 안다.", de: "Ich weiß die Antwort." },
+  review: { ko: "나는 독일어를 안다.", de: "Ich kenne Deutsch." },
 };
 
 const EXERCISE_LABELS: Record<ExerciseKind, string> = {
@@ -287,6 +319,13 @@ export default function Home() {
     setAnswerCorrect(false);
   }
 
+  function retryCurrentExercise() {
+    setSelectedChoice("");
+    setTypedAnswer("");
+    setAnswerChecked(false);
+    setAnswerCorrect(false);
+  }
+
   return (
     <main className="app-shell">
       <aside className="side-rail">
@@ -301,7 +340,7 @@ export default function Home() {
       <section className="workspace">
         <header className="topbar">
           <div className="topbar-title"><span className="locale-chip">DE</span><p>독일어 단어 훈련</p></div>
-          <div className="topbar-stats" aria-label="학습 현황"><span>학습 단어 {completedCount}/{DAILY_GOAL}</span><span className="offline-dot">오프라인</span></div>
+          <div className="topbar-stats" aria-label="학습 현황"><span>챕터 {completedLessons.length}/{LESSONS.length}</span><span className="offline-dot">오프라인</span></div>
         </header>
 
         {activeView === "learn" ? (
@@ -318,7 +357,6 @@ export default function Home() {
 
               <section className="challenge-card quiz-card">
                 <div className="challenge-copy"><p className="prompt-label">{activeExercise && EXERCISE_LABELS[activeExercise.kind]}</p><h2>{activeExercise?.prompt}</h2><p className="alternate-meaning">{activeExercise && exerciseHint(activeExercise.kind)}</p></div>
-                <img className="guide-image" src="/blue-dragon-guide.png" alt="단어 학습을 돕는 파란 용" />
                 {activeExercise && <div className="quiz-body">
                   {activeExercise.choices ? (
                     <div className="answer-choices">
@@ -328,16 +366,15 @@ export default function Home() {
                     <label className="answer-input"><span className="sr-only">답안</span><input disabled={answerChecked} onChange={(event) => setTypedAnswer(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") checkAnswer(); }} placeholder={answerPlaceholder(activeExercise.kind)} value={typedAnswer} /></label>
                   )}
                   {answerChecked && <div className={answerCorrect ? "answer-feedback correct" : "answer-feedback incorrect"}><strong>{answerCorrect ? "정답이에요" : "다시 확인해보세요"}</strong><p>정답: {activeExercise.expected}</p>{activeExercise.entry && <><WordForms entry={activeExercise.entry} /><p className="word-note">{activeExercise.entry.note}</p></>}</div>}
-                  {answerChecked ? <button className="primary-button quiz-submit" onClick={moveToNextExercise} type="button">다음</button> : <button className="primary-button quiz-submit" disabled={activeExercise.choices ? !selectedChoice : !typedAnswer.trim()} onClick={checkAnswer} type="button">확인</button>}
+                  {answerChecked ? <button className="primary-button quiz-submit" onClick={answerCorrect ? moveToNextExercise : retryCurrentExercise} type="button">{answerCorrect ? "다음" : "다시 풀기"}</button> : <button className="primary-button quiz-submit" disabled={activeExercise.choices ? !selectedChoice : !typedAnswer.trim()} onClick={checkAnswer} type="button">확인</button>}
                 </div>}
               </section>
             </section>
           ) : (
             <section className="journey-view" aria-label="독일어 학습 경로">
               <div className="journey-intro">
-                <div><p className="eyebrow">학습 경로</p><h1>챕터 길을 따라 배우세요.</h1><p>일상어부터 핵심 동사까지, 한 챕터씩 순서대로 완성합니다.</p></div>
-                <img className="journey-guide" src="/blue-dragon-guide.png" alt="단어 학습을 돕는 파란 용" />
-                <div className="goal-progress" aria-label={`학습 단어 ${completedCount} / ${DAILY_GOAL}`}><div className="progress-label"><span>오늘의 목표</span><strong>{completedCount}/{DAILY_GOAL}</strong></div><div className="progress-track"><span style={{ width: `${dailyProgress}%` }} /></div></div>
+                <div><p className="eyebrow">독일어 기초 코스</p><h1>길을 따라, 문장까지.</h1><p>24개 챕터에서 새 단어, 관사, 변화형, 번역을 순서대로 연결합니다.</p></div>
+                <div className="goal-progress" aria-label={`오늘의 목표 ${completedCount} / ${DAILY_GOAL}`}><div className="progress-label"><span>오늘의 목표</span><strong>{completedCount}/{DAILY_GOAL}</strong></div><div className="progress-track"><span style={{ width: `${dailyProgress}%` }} /></div></div>
               </div>
 
               <div className="topic-path">
@@ -349,8 +386,7 @@ export default function Home() {
                     {index > 0 && <span className="path-connector" aria-hidden="true" />}
                     <button className="topic-node" disabled={!unlocked} onClick={() => startLesson(index)} type="button">
                       <span className="lesson-orb">{complete ? "완료" : index + 1}</span>
-                      <span className="lesson-copy"><small>CHAPTER {index + 1}</small><strong>{lesson.title}</strong><em>{lesson.subtitle}</em></span>
-                      <span className="lesson-count">{lesson.words.length} 단어</span>
+                      <span className="lesson-copy"><small>CHAPTER {String(index + 1).padStart(2, "0")}</small><strong>{lesson.title}</strong><em>{lesson.subtitle}</em></span>
                     </button>
                   </div>;
                 })}

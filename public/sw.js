@@ -1,4 +1,4 @@
-const CACHE_NAME = "offline-deutsch-dictionary-v4";
+const CACHE_NAME = "offline-deutsch-dictionary-v5";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
